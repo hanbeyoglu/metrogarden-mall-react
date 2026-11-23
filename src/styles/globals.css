@@ -1,0 +1,381 @@
+@import "tailwindcss";
+
+.campaign-rich-text > :first-child { margin-top: 0; }
+.campaign-rich-text > :last-child { margin-bottom: 0; }
+.campaign-rich-text p { margin: 0 0 1em; }
+.campaign-rich-text h1,
+.campaign-rich-text h2,
+.campaign-rich-text h3,
+.campaign-rich-text h4,
+.campaign-rich-text h5,
+.campaign-rich-text h6 { margin: 1.1em 0 0.5em; font-weight: 600; line-height: 1.3; }
+.campaign-rich-text h1 { font-size: 1.7em; }
+.campaign-rich-text h2 { font-size: 1.5em; }
+.campaign-rich-text h3 { font-size: 1.3em; }
+.campaign-rich-text h4,
+.campaign-rich-text h5,
+.campaign-rich-text h6 { font-size: 1.1em; }
+.campaign-rich-text ul,
+.campaign-rich-text ol { margin: 0 0 1em; padding-left: 1.5em; }
+.campaign-rich-text ul { list-style: disc; }
+.campaign-rich-text ol { list-style: decimal; }
+.campaign-rich-text li { margin: 0.25em 0; padding-left: 0.15em; }
+.campaign-rich-text a { text-decoration: underline; text-underline-offset: 0.18em; }
+.campaign-rich-text blockquote { margin: 1em 0; border-left: 3px solid #b8965a; padding-left: 1em; }
+.campaign-rich-text hr { margin: 1.25em 0; border-color: #c8c8c8; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN TOKEN SYSTEM
+   All tokens live in @theme so they become:
+   1. CSS custom properties at :root (var(--color-carbon) etc.)
+   2. Tailwind utility classes (bg-carbon, text-champagne, font-display etc.)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* ── Brand Colors ──────────────────────────────────────────────────────── */
+
+  /* Neutrals — the entire tonal spine of the UI */
+  --color-carbon: #0f0f0f;        /* Primary text, headlines, nav-scrolled */
+  --color-obsidian: #1a1a1a;      /* Hero overlays, dark sections */
+  --color-graphite: #3d3d3d;      /* Secondary text, captions */
+  --color-ash: #7a7a7a;           /* Placeholder text, icon fills */
+  --color-mist: #c8c8c8;          /* Dividers, subtle borders */
+  --color-fog: #f0efec;           /* Card backgrounds, alternate sections */
+  --color-ivory: #faf9f7;         /* Page background (warm near-white) */
+
+  /* Accent — used sparingly: CTAs, active states, highlights */
+  --color-champagne: #b8965a;
+  --color-champagne-80: #c9a97a;  /* Hover state */
+  --color-champagne-10: #f8f3ec;  /* Tinted backgrounds, badge fills */
+
+  /* Cinema — dedicated dark-mode palette for the cinema section */
+  --color-midnight: #08080d;
+  --color-silver: #e8e8e8;
+
+  /* Semantic Status */
+  --color-success: #2d6a4f;
+  --color-warning: #e09b3d;
+  --color-error: #c0392b;
+  --color-info: #2c5f8a;
+
+  /* ── Semantic aliases used by shadcn/ui components ─────────────────────── */
+  /* Shadcn components reference these via bg-background, text-foreground etc. */
+
+  --color-background: #faf9f7;       /* → ivory */
+  --color-foreground: #0f0f0f;       /* → carbon */
+  --color-card: #ffffff;
+  --color-card-foreground: #0f0f0f;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #0f0f0f;
+  --color-primary: #0f0f0f;          /* → carbon */
+  --color-primary-foreground: #faf9f7; /* → ivory */
+  --color-secondary: #f0efec;        /* → fog */
+  --color-secondary-foreground: #0f0f0f;
+  --color-muted: #f0efec;            /* → fog */
+  --color-muted-foreground: #7a7a7a; /* → ash */
+  --color-accent: #f0efec;
+  --color-accent-foreground: #0f0f0f;
+  --color-destructive: #c0392b;      /* → error */
+  --color-border: #c8c8c8;           /* → mist */
+  --color-input: #c8c8c8;            /* → mist */
+  --color-ring: #b8965a;             /* → champagne — focus ring */
+
+  /* ── Typography ────────────────────────────────────────────────────────── */
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+
+  /* ── Border Radius ─────────────────────────────────────────────────────── */
+  /* We use 2px as the default — minimal, premium, not rounded */
+
+  --radius-none: 0px;
+  --radius-sm: 0.125rem;  /* 2px — primary card/button radius */
+  --radius-md: 0.375rem;  /* 6px */
+  --radius-lg: 0.5rem;    /* 8px */
+  --radius-full: 9999px;  /* Pills, avatars */
+  --radius: 0.125rem;     /* shadcn default radius override */
+
+  /* ── Shadows ───────────────────────────────────────────────────────────── */
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.10);
+  --shadow-xl: 0 20px 48px rgba(0, 0, 0, 0.12);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.10);
+  --shadow-cinema: 0 20px 60px rgba(0, 0, 0, 0.50);
+
+  /* ── Z-Index Scale ─────────────────────────────────────────────────────── */
+
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 50;
+  --z-sticky: 50;
+  --z-megamenu: 99;
+  --z-navbar: 100;
+  --z-modal: 200;
+  --z-search: 300;
+  --z-toast: 400;
+  --z-progress: 500;
+
+  /* ── Transition Durations ──────────────────────────────────────────────── */
+  /* Available as duration-instant, duration-fast, duration-base etc. */
+
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-base: 350ms;
+  --duration-slow: 600ms;
+  --duration-cinematic: 1000ms;
+
+  /* ── Easing Functions ──────────────────────────────────────────────────── */
+
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);     /* elements entering */
+  --ease-in-smooth: cubic-bezier(0.64, 0, 0.78, 0);  /* elements leaving */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);  /* subtle spring */
+
+  /* ── Breakpoints ───────────────────────────────────────────────────────── */
+  /* Override Tailwind defaults to match our spec exactly */
+
+  --breakpoint-sm: 30rem;   /* 480px */
+  --breakpoint-md: 48rem;   /* 768px */
+  --breakpoint-lg: 64rem;   /* 1024px */
+  --breakpoint-xl: 80rem;   /* 1280px */
+  --breakpoint-2xl: 90rem;  /* 1440px */
+
+  /* ── Layout ────────────────────────────────────────────────────────────── */
+
+  --container-max: 1440px;
+  --container-lg: 1280px;
+  --container-md: 960px;
+  --container-sm: 720px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BASE RESET & DEFAULTS
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-carbon);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  /* Remove default button styles — we apply them explicitly */
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+  }
+
+  /* Remove default list styles — applied via utility classes */
+  ul,
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Respect user preference for reduced motion globally */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Skip to main content — visible only on focus (accessibility) */
+  .skip-link {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: var(--z-progress);
+    background-color: var(--color-champagne);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transform: translateY(-200%);
+    transition: transform 200ms var(--ease-smooth);
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
+  /* Focus ring — consistent, accessible, on-brand */
+  :focus-visible {
+    outline: 2px solid var(--color-champagne);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Headings use the display font */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-carbon);
+  }
+
+  /* Anchor defaults */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: var(--color-champagne-10);
+    color: var(--color-carbon);
+  }
+
+  /* Scrollbar — webkit only, subtle */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-mist);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-ash);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   UTILITY CLASSES
+   Composable helpers not covered by Tailwind utilities.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  /* Aspect ratios used throughout the design */
+  .aspect-poster {
+    aspect-ratio: 2 / 3;
+  }
+
+  .aspect-card {
+    aspect-ratio: 4 / 3;
+  }
+
+  .aspect-store {
+    aspect-ratio: 3 / 2;
+  }
+
+  /* Hide scrollbar but keep scrollable (for horizontal pill rows) */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Text line clamps */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* Text tracking variants */
+  .tracking-eyebrow {
+    letter-spacing: 0.18em;
+  }
+
+  .tracking-wide-sm {
+    letter-spacing: 0.08em;
+  }
+
+  /* Image cover utility (for fixed-height containers) */
+  .img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* Gradient overlays — used over hero images */
+  .overlay-bottom {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.15) 60%, transparent 100%);
+  }
+
+  .overlay-left {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+  }
+
+  .overlay-full {
+    background: rgba(0, 0, 0, 0.45);
+  }
+}

@@ -1,0 +1,48 @@
+import type { Slider } from '@/types'
+
+export const sliders: Slider[] = [
+  {
+    id: 'slide-1',
+    title: 'Yaz Koleksiyonu Geldi',
+    subtitle: 'Sezonun en seçkin parçaları şimdi Metrogarden\'da. 180 marka, sonsuz stil.',
+    eyebrow: 'Moda & Stil',
+    image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1920&q=85&fit=crop',
+    cta_label: 'Mağazaları Keşfet',
+    cta_url: '/stores',
+    order: 1,
+    is_active: true,
+  },
+  {
+    id: 'slide-2',
+    title: 'Lezzetin Yeni Adresi',
+    subtitle: 'Dünyadan seçme mutfaklar, eşsiz tatlar. Yeme-içme deneyimini yeniden keşfedin.',
+    eyebrow: 'Restoran & Kafe',
+    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=85&fit=crop',
+    cta_label: 'Restoranları Gör',
+    cta_url: '/stores?category=food-and-beverage',
+    order: 2,
+    is_active: true,
+  },
+  {
+    id: 'slide-3',
+    title: 'Büyük Yaz Festivali',
+    subtitle: 'Canlı performanslar, sanat sergileri ve çocuk etkinlikleri. Tüm aileniz için.',
+    eyebrow: 'Etkinlikler',
+    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=85&fit=crop',
+    cta_label: 'Etkinlikleri İncele',
+    cta_url: '/events',
+    order: 3,
+    is_active: true,
+  },
+  {
+    id: 'slide-4',
+    title: 'Sinema Deneyimi',
+    subtitle: 'Blockbuster filmler, premium salon, Dolby Atmos ses sistemi. Sinema artık farklı.',
+    eyebrow: 'Sinema',
+    image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=1920&q=85&fit=crop',
+    cta_label: 'Seans Saatlerini Gör',
+    cta_url: '/cinema',
+    order: 4,
+    is_active: true,
+  },
+]

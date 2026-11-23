@@ -1,0 +1,6 @@
+export { mall } from './mall'
+export { sliders } from './sliders'
+export { allStores, featuredStores } from './stores'
+export { allCampaigns, campaigns } from './campaigns'
+export { allEvents, upcomingEvents } from './events'
+export { allMovies, currentMovies } from './movies'
