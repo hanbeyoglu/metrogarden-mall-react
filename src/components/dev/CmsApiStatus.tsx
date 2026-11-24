@@ -6,7 +6,7 @@ import { queryKeys } from '@/lib/queryKeys'
 
 /** Development-only signal that makes the local demo fallback visible during CMS setup. */
 export function CmsApiStatus() {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
   const locale = i18n.language.toLowerCase().startsWith('en') ? 'en' : 'tr'
   const configured = hasPublicApiConfig(true)
   const query = useQuery({
@@ -20,12 +20,12 @@ export function CmsApiStatus() {
   if (!import.meta.env.DEV) return null
 
   const message = !configured
-    ? 'CMS API ayarları eksik; örnek içerik gösteriliyor.'
+    ? t('dev.cmsConfigMissing')
     : query.isPending
-      ? 'CMS API bağlantısı kuruluyor…'
+      ? t('dev.cmsConnecting')
       : query.isError
-        ? `CMS API bağlantısı başarısız (${query.error instanceof Error ? query.error.message : 'bilinmeyen hata'}); örnek içerik gösteriliyor.`
-        : 'CMS API bağlı; canlı içerik alındı.'
+        ? t('dev.cmsConnectionFailed')
+        : t('dev.cmsConnected')
 
   const isError = configured && query.isError
   const isSuccess = configured && query.isSuccess

@@ -1,12 +1,10 @@
 import { cn } from '@/lib/cn'
+import { useTranslation } from 'react-i18next'
 
 interface DateSelectorProps {
   selectedDay: number
   onDayChange: (day: number) => void
 }
-
-const TR_DAYS = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
-const TR_MONTHS = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara']
 
 function buildDays() {
   const today = new Date()
@@ -19,13 +17,15 @@ function buildDays() {
 }
 
 export function DateSelector({ selectedDay, onDayChange }: DateSelectorProps) {
+  const { t, i18n } = useTranslation()
+  const locale = (i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR'
   const days = buildDays()
 
   return (
     <div
       className="sticky top-[68px] z-40 border-b border-white/[0.06] bg-[#0d0d0d]/95 backdrop-blur-md lg:top-[76px]"
       role="tablist"
-      aria-label="Gün seçici"
+      aria-label={t('pages.cinema.dateSelector')}
     >
       <div className="mx-auto max-w-[1440px] px-4 lg:px-12">
         <div className="flex overflow-x-auto py-1 scrollbar-hide">
@@ -47,7 +47,7 @@ export function DateSelector({ selectedDay, onDayChange }: DateSelectorProps) {
               >
                 {/* Day label */}
                 <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.16em]">
-                  {isToday ? 'Bugün' : TR_DAYS[day.getDay()]}
+                  {isToday ? t('pages.cinema.today') : new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(day)}
                 </span>
 
                 {/* Date number */}
@@ -62,7 +62,7 @@ export function DateSelector({ selectedDay, onDayChange }: DateSelectorProps) {
 
                 {/* Month */}
                 <span className="font-sans text-[9px] uppercase tracking-wider">
-                  {TR_MONTHS[day.getMonth()]}
+                  {new Intl.DateTimeFormat(locale, { month: 'short' }).format(day)}
                 </span>
 
                 {/* Active indicator */}

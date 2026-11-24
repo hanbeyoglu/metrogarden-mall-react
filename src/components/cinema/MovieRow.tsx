@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Clock, Ticket, ExternalLink, Star, Play } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import type { Movie } from '@/types'
 import { cn } from '@/lib/cn'
 import { MovieTrailerModal } from './MovieTrailerModal'
@@ -20,13 +21,17 @@ const RATING_STYLE: Record<string, string> = {
   'Genel İzleyici': 'bg-green-900/60 text-green-200',
 }
 
-function formatDuration(min: number) {
+function formatDuration(min: number, t: (key: string, options?: Record<string, number>) => string) {
   const h = Math.floor(min / 60)
   const m = min % 60
-  return h > 0 ? `${h} sa ${m > 0 ? `${m} dk` : ''}`.trim() : `${m} dk`
+  return h > 0
+    ? `${t('pages.cinema.durationHoursOnly', { hours: h })}${m > 0 ? ` ${t('pages.cinema.durationMinutes', { minutes: m })}` : ''}`
+    : t('pages.cinema.durationMinutes', { minutes: m })
 }
 
 export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
+  const { t, i18n } = useTranslation()
+  const locale = (i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR'
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
   const [trailerOpen, setTrailerOpen] = useState(false)
 
@@ -63,7 +68,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
         <button
           type="button"
           onClick={openTrailer}
-          aria-label={`${movie.title} fragmanını aç`}
+          aria-label={t('pages.cinema.openTrailer', { title: movie.title })}
           className="group/trailer relative block w-full overflow-hidden text-left"
           style={{ aspectRatio: '16/9' }}
         >
@@ -75,7 +80,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-transparent to-transparent" />
           <span className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors group-hover/trailer:bg-black/25">
             <span className="flex items-center gap-2 border border-white/40 bg-black/45 px-4 py-2.5 font-sans text-[10px] font-semibold uppercase tracking-[0.15em] text-white shadow-lg backdrop-blur-sm transition group-hover/trailer:border-champagne group-hover/trailer:text-champagne">
-              <Play size={12} fill="currentColor" /> Fragmanı izle
+              <Play size={12} fill="currentColor" /> {t('pages.cinema.watchTrailer')}
             </span>
           </span>
 
@@ -83,14 +88,14 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
           {isComingSoon && (
             <div className="absolute right-3 top-3">
               <span className="bg-champagne px-2.5 py-1 font-sans text-[9px] font-bold uppercase tracking-[0.12em] text-white">
-                Yakında
+                {t('pages.cinema.comingSoonBadge')}
               </span>
             </div>
           )}
           {movie.is_featured && !isComingSoon && (
             <div className="absolute left-3 top-3">
               <span className="flex items-center gap-1 bg-black/50 px-2 py-1 font-sans text-[9px] font-medium text-champagne backdrop-blur-sm">
-                <Star size={9} fill="currentColor" /> Öne Çıkan
+                <Star size={9} fill="currentColor" /> {t('pages.cinema.featured')}
               </span>
             </div>
           )}
@@ -111,12 +116,12 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
             )}
             {movie.genre?.slice(0, 2).map((g) => (
               <span key={g} className="font-sans text-[10px] font-medium uppercase tracking-wide text-champagne/70">
-                {g}
+                {t(`cinemaGenres.${g}`, { defaultValue: g })}
               </span>
             ))}
             {movie.duration && (
               <span className="flex items-center gap-1 font-sans text-[10px] text-white/30">
-                <Clock size={10} /> {formatDuration(movie.duration)}
+                <Clock size={10} /> {formatDuration(movie.duration, t)}
               </span>
             )}
           </div>
@@ -132,7 +137,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
           <div className="mb-2 flex flex-wrap gap-x-3 gap-y-1">
             {movie.director && (
               <p className="font-sans text-[11px] text-white/30">
-                <span className="text-white/20">Yönetmen</span> {movie.director}
+                <span className="text-white/20">{t('pages.cinema.director')}</span> {movie.director}
               </p>
             )}
             {movie.subtitle && (
@@ -167,7 +172,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
         <button
           type="button"
           onClick={openTrailer}
-          aria-label={`${movie.title} fragmanını aç`}
+          aria-label={t('pages.cinema.openTrailer', { title: movie.title })}
           className="group/trailer relative block w-[100px] shrink-0 overflow-hidden text-left xl:w-[110px]"
         >
           <img
@@ -199,12 +204,12 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
             </button>
             {isComingSoon && (
               <span className="bg-champagne px-2.5 py-1 font-sans text-[9px] font-bold uppercase tracking-[0.12em] text-white">
-                Yakında
+                {t('pages.cinema.comingSoonBadge')}
               </span>
             )}
             {movie.is_featured && !isComingSoon && (
               <span className="flex items-center gap-1 border border-champagne/30 px-2 py-0.5 font-sans text-[9px] font-medium text-champagne">
-                <Star size={9} fill="currentColor" /> Öne Çıkan
+                <Star size={9} fill="currentColor" /> {t('pages.cinema.featured')}
               </span>
             )}
             {movie.rating && (
@@ -223,7 +228,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
           <div className="mb-2.5 flex flex-wrap items-center gap-3">
             {movie.genre?.slice(0, 3).map((g) => (
               <span key={g} className="font-sans text-[11px] font-medium uppercase tracking-wide text-champagne/60">
-                {g}
+                {t(`cinemaGenres.${g}`, { defaultValue: g })}
               </span>
             ))}
             {movie.genre && movie.genre.length > 0 && (
@@ -231,7 +236,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
             )}
             {movie.duration && (
               <span className="flex items-center gap-1.5 font-sans text-[11px] text-white/30">
-                <Clock size={10} /> {formatDuration(movie.duration)}
+                <Clock size={10} /> {formatDuration(movie.duration, t)}
               </span>
             )}
             {movie.language && (
@@ -250,12 +255,12 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
           {/* Director + cast */}
           {movie.director && (
             <p className="mb-1 font-sans text-[11px] text-white/25">
-              <span className="mr-1 text-white/15">Yönetmen</span>{movie.director}
+              <span className="mr-1 text-white/15">{t('pages.cinema.director')}</span>{movie.director}
             </p>
           )}
           {movie.cast && movie.cast.length > 0 && (
             <p className="mb-2.5 font-sans text-[11px] text-white/20">
-              <span className="mr-1 text-white/12">Oyuncular</span>
+              <span className="mr-1 text-white/12">{t('pages.cinema.cast')}</span>
               {movie.cast.slice(0, 4).join(', ')}
             </p>
           )}
@@ -274,11 +279,11 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
             <div className="flex flex-col items-center gap-3 text-center">
               <div className="h-px w-10 bg-champagne/30" />
               <span className="font-sans text-[11px] font-medium uppercase tracking-[0.2em] text-white/20">
-                Yakında Vizyonda
+                {t('pages.cinema.comingSoonInCinema')}
               </span>
               {movie.release_date && (
                 <span className="font-sans text-[13px] text-champagne/50">
-                  {new Date(movie.release_date).toLocaleDateString('tr-TR', {
+                  {new Date(movie.release_date).toLocaleDateString(locale, {
                     day: 'numeric', month: 'long'
                   })}
                 </span>
@@ -293,7 +298,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
               onSessionClick={trackSessionClick}
             />
           ) : (
-            <span className="text-center font-sans text-[11px] text-white/20">Seans bilgisi yok</span>
+            <span className="text-center font-sans text-[11px] text-white/20">{t('pages.cinema.noShowtimes')}</span>
           )}
         </div>
       </div>

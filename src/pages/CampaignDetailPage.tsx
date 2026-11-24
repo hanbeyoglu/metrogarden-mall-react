@@ -16,12 +16,12 @@ import { useAnalyticsView } from '@/hooks/useAnalyticsView'
 
 const STATUS_CONFIG = {
   'ending-soon': {
-    label: 'Yakında Bitiyor · Son 7 Gün',
+    label: 'pages.campaigns.endingSoonStatus',
     className: 'bg-[#fef3c7] text-[#92400e] border border-[#fde68a]',
     icon: <AlertTriangle size={13} className="shrink-0" />,
   },
   expired: {
-    label: 'Bu Kampanyanın Süresi Dolmuştur',
+    label: 'pages.campaigns.expiredStatus',
     className: 'bg-[#f3f4f6] text-[#6b7280] border border-[#e5e7eb]',
     icon: <Clock size={13} className="shrink-0" />,
   },
@@ -30,7 +30,8 @@ const STATUS_CONFIG = {
 } as const
 
 export function CampaignDetailPage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const locale = (i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR'
   const { slug } = useParams<{ slug: string }>()
   const { campaigns: allCampaigns } = useCampaignContent()
   const campaignDetail = useCampaignDetailContent(slug)
@@ -88,10 +89,10 @@ export function CampaignDetailPage() {
         {/* Breadcrumb */}
         <div className="absolute left-0 right-0 top-0 z-10 px-6 pt-[90px] lg:px-12 lg:pt-[100px]">
           <div className="mx-auto max-w-[1440px]">
-            <nav className="flex items-center gap-1.5 font-sans text-[11px] text-white/40" aria-label="Sayfa konumu">
-              <Link to={ROUTES.HOME} className="transition-colors hover:text-white/70">Ana Sayfa</Link>
+            <nav className="flex items-center gap-1.5 font-sans text-[11px] text-white/40" aria-label={t('common.breadcrumb')}>
+              <Link to={ROUTES.HOME} className="transition-colors hover:text-white/70">{t('pages.notFound.links.home')}</Link>
               <ChevronRight size={11} className="text-white/25" />
-              <Link to={ROUTES.CAMPAIGNS} className="transition-colors hover:text-white/70">Kampanyalar</Link>
+              <Link to={ROUTES.CAMPAIGNS} className="transition-colors hover:text-white/70">{t('pages.campaigns.detail.breadcrumb')}</Link>
               <ChevronRight size={11} className="text-white/25" />
               <span className="line-clamp-1 text-white/65">{campaign.title}</span>
             </nav>
@@ -158,7 +159,7 @@ export function CampaignDetailPage() {
                 className="group mb-8 inline-flex items-center gap-2 font-sans text-[13px] text-graphite transition-colors hover:text-carbon"
               >
                 <ArrowLeft size={14} className="transition-transform duration-300 group-hover:-translate-x-1" />
-                Tüm Kampanyalar
+                {t('common.backToCampaigns')}
               </Link>
 
               {/* Status banner */}
@@ -170,7 +171,7 @@ export function CampaignDetailPage() {
                   className={cn('mb-8 flex items-center gap-2.5 px-4 py-3 font-sans text-[13px] font-medium', statusConfig.className)}
                 >
                   {statusConfig.icon}
-                  {statusConfig.label}
+                {t(statusConfig.label)}
                 </motion.div>
               )}
 
@@ -184,11 +185,11 @@ export function CampaignDetailPage() {
                 <div className="mb-4 flex items-center gap-3">
                   <span className="h-px w-8 bg-champagne" />
                   <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                    Kampanya Detayı
+                    {t('pages.campaigns.detail.eyebrow')}
                   </span>
                 </div>
                 <h2 className="mb-6 font-display text-2xl font-light text-carbon lg:text-3xl">
-                  Açıklama
+                  {t('common.description')}
                 </h2>
 
                 {campaign.description && (
@@ -211,7 +212,7 @@ export function CampaignDetailPage() {
                     aria-expanded={termsOpen}
                   >
                     <span className="font-sans text-[14px] font-medium text-carbon">
-                      Kampanya Koşulları
+                      {t('pages.campaigns.terms')}
                     </span>
                     <ChevronDown
                       size={16}
@@ -248,7 +249,7 @@ export function CampaignDetailPage() {
             >
               <div className="border border-mist/60 bg-white p-6 lg:p-7">
                 <h3 className="mb-6 border-b border-mist/60 pb-5 font-display text-xl font-light text-carbon">
-                  Kampanya Bilgileri
+                  {t('pages.campaigns.detail.infoTitle')}
                 </h3>
 
                 <div className="space-y-5">
@@ -256,7 +257,7 @@ export function CampaignDetailPage() {
                   {campaign.discount_label && (
                     <div>
                       <p className="mb-1 font-sans text-[10px] font-semibold uppercase tracking-[0.12em] text-ash">
-                        İndirim / Fırsat
+                        {t('pages.campaigns.detail.discount')}
                       </p>
                       <p className="font-sans text-[15px] font-semibold text-champagne">
                         {campaign.discount_label}
@@ -267,7 +268,7 @@ export function CampaignDetailPage() {
                   {/* Status */}
                   <div>
                     <p className="mb-1 font-sans text-[10px] font-semibold uppercase tracking-[0.12em] text-ash">
-                      Durum
+                      {t('common.status')}
                     </p>
                     <span className={cn(
                       'font-sans text-[13px] font-medium',
@@ -275,10 +276,10 @@ export function CampaignDetailPage() {
                       campaign.status === 'ending-soon' && 'text-[#d97706]',
                       campaign.status === 'expired' && 'text-graphite',
                     )}>
-                      {campaign.status === 'active' && '● Aktif'}
-                      {campaign.status === 'ending-soon' && '● Yakında Bitiyor'}
-                      {campaign.status === 'expired' && '○ Süresi Doldu'}
-                      {campaign.status === 'upcoming' && '◌ Yakında'}
+                      {campaign.status === 'active' && `● ${t('status.active')}`}
+                      {campaign.status === 'ending-soon' && `● ${t('pages.campaigns.endingSoonStatus')}`}
+                      {campaign.status === 'expired' && `○ ${t('status.expired')}`}
+                      {campaign.status === 'upcoming' && `◌ ${t('status.upcoming')}`}
                     </span>
                   </div>
 
@@ -286,16 +287,16 @@ export function CampaignDetailPage() {
                   {(campaign.start_date || campaign.end_date) && (
                     <div>
                       <p className="mb-1 font-sans text-[10px] font-semibold uppercase tracking-[0.12em] text-ash">
-                        Geçerlilik
+                        {t('common.validity')}
                       </p>
                       <p className="font-sans text-[13px] font-light text-carbon">
                         {campaign.end_date
-                          ? formatDateRange(campaign.start_date, campaign.end_date)
-                          : formatDateFull(campaign.start_date)}
+                          ? formatDateRange(campaign.start_date, campaign.end_date, locale)
+                          : formatDateFull(campaign.start_date, locale)}
                       </p>
                       {campaign.end_date && !isExpired && (
                         <p className="mt-0.5 font-sans text-[11px] text-ash">
-                          Son gün: {formatDateFull(campaign.end_date)}
+                          {t('common.lastDay')}: {formatDateFull(campaign.end_date, locale)}
                         </p>
                       )}
                     </div>
@@ -323,7 +324,7 @@ export function CampaignDetailPage() {
                     to={ROUTES.STORE_DETAIL(campaign.store.slug)}
                     className="group mt-7 flex w-full items-center justify-center gap-2.5 bg-carbon py-3.5 font-sans text-[12px] font-semibold uppercase tracking-[0.12em] text-ivory transition-all duration-300 hover:bg-champagne"
                   >
-                    Mağazayı İncele
+                    {t('pages.campaigns.detail.viewStore')}
                     <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 )}

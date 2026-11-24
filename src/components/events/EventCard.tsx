@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { MapPin, Clock, Ticket, ArrowRight } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import type { Event } from '@/types'
 import { ROUTES, EVENT_CATEGORIES } from '@/lib/constants'
 import { cn } from '@/lib/cn'
@@ -11,13 +12,13 @@ interface EventCardProps {
   index?: number
 }
 
-function formatDate(dateStr: string) {
+function formatDate(dateStr: string, locale: string) {
   const d = new Date(dateStr)
   return {
-    day: d.toLocaleDateString('tr-TR', { day: 'numeric' }),
-    month: d.toLocaleDateString('tr-TR', { month: 'short' }).replace('.', '').toUpperCase(),
-    weekday: d.toLocaleDateString('tr-TR', { weekday: 'short' }).toUpperCase(),
-    full: d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }),
+    day: d.toLocaleDateString(locale, { day: 'numeric' }),
+    month: d.toLocaleDateString(locale, { month: 'short' }).replace('.', '').toUpperCase(),
+    weekday: d.toLocaleDateString(locale, { weekday: 'short' }).toUpperCase(),
+    full: d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' }),
   }
 }
 
@@ -29,9 +30,13 @@ function isPastEvent(event: Event): boolean {
 }
 
 export function EventCard({ event, index = 0 }: EventCardProps) {
-  const dateInfo = formatDate(event.date)
+  const { t, i18n } = useTranslation()
+  const locale = (i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR'
+  const dateInfo = formatDate(event.date, locale)
   const isPast = isPastEvent(event)
-  const categoryLabel = event.category ? (EVENT_CATEGORIES[event.category] ?? event.category) : null
+  const categoryLabel = event.category
+    ? t(`eventCategories.${event.category}`, { defaultValue: EVENT_CATEGORIES[event.category] ?? event.category })
+    : null
 
   return (
     <motion.article
@@ -75,7 +80,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
                   'block px-3 py-2 font-sans text-[9px] font-semibold uppercase tracking-[0.12em] text-white',
                   event.is_free ? 'bg-[#2d6a4f]' : 'bg-champagne',
                 )}>
-                  {event.is_free ? 'Ücretsiz' : 'Ücretli'}
+                  {event.is_free ? t('common.free') : t('status.paid')}
                 </span>
               </div>
             )}
@@ -137,7 +142,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
                   'block px-2.5 py-1.5 font-sans text-[9px] font-semibold uppercase tracking-wide text-white',
                   event.is_free ? 'bg-[#2d6a4f]' : 'bg-champagne',
                 )}>
-                  {event.is_free ? 'Ücretsiz' : 'Ücretli'}
+                  {event.is_free ? t('common.free') : t('status.paid')}
                 </span>
               </div>
             )}
@@ -198,7 +203,7 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
                 size={18}
                 className="transition-transform duration-300 group-hover:translate-x-1"
               />
-              Detayları Gör
+              {t('common.viewDetails')}
             </span>
           </div>
         </div>

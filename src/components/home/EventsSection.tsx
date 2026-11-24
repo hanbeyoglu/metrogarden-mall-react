@@ -1,19 +1,22 @@
 import { Link } from 'react-router'
 import { ArrowRight, MapPin, Ticket } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { useEventContent } from '@/hooks/useCmsContent'
 import { ROUTES, EVENT_CATEGORIES } from '@/lib/constants'
 import { trackAnalytics } from '@/lib/analytics'
 
-function formatEventDate(dateStr: string) {
+function formatEventDate(dateStr: string, locale: string) {
   const date = new Date(dateStr)
   return {
-    day: date.toLocaleDateString('tr-TR', { day: '2-digit' }),
-    month: date.toLocaleDateString('tr-TR', { month: 'short' }).toUpperCase(),
+    day: date.toLocaleDateString(locale, { day: '2-digit' }),
+    month: date.toLocaleDateString(locale, { month: 'short' }).toUpperCase(),
   }
 }
 
 export function EventsSection() {
+  const { t, i18n } = useTranslation()
+  const locale = (i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR'
   const { upcomingEvents } = useEventContent()
   return (
     <section className="bg-ivory py-24 lg:py-32" aria-labelledby="events-heading">
@@ -30,7 +33,7 @@ export function EventsSection() {
             >
               <span className="h-px w-8 bg-champagne" />
               <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                Takvim
+                {t('pages.home.eventsEyebrow')}
               </span>
             </motion.div>
             <motion.h2
@@ -41,7 +44,7 @@ export function EventsSection() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="font-display text-4xl font-light leading-[1.05] text-carbon lg:text-5xl"
             >
-              Yaklaşan Etkinlikler
+              {t('pages.home.eventsTitle')}
             </motion.h2>
           </div>
 
@@ -56,7 +59,7 @@ export function EventsSection() {
               className="group hidden items-center gap-2 font-sans text-[13px] font-medium text-graphite transition-all duration-300 hover:text-carbon md:flex"
             >
               <span className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-carbon after:transition-all after:duration-300 group-hover:after:w-full">
-                Tüm Etkinlikler
+                {t('common.seeAllEvents')}
               </span>
               <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
@@ -66,7 +69,7 @@ export function EventsSection() {
         {/* Events Grid */}
         <div className="grid gap-5 md:grid-cols-3 lg:gap-6">
           {upcomingEvents.map((event, i) => {
-            const dateInfo = formatEventDate(event.date)
+            const dateInfo = formatEventDate(event.date, locale)
             return (
               <motion.article
                 key={event.id}
@@ -105,7 +108,7 @@ export function EventsSection() {
                     {event.is_free && (
                       <div className="absolute right-0 top-0">
                         <span className="block bg-[#2d6a4f] px-3 py-2 font-sans text-[9px] font-semibold uppercase tracking-[0.12em] text-white">
-                          Ücretsiz
+                          {t('common.free')}
                         </span>
                       </div>
                     )}
@@ -116,7 +119,7 @@ export function EventsSection() {
                     {/* Category */}
                     {event.category && (
                       <p className="mb-2 font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-champagne">
-                        {EVENT_CATEGORIES[event.category]}
+                        {t(`eventCategories.${event.category}`, { defaultValue: EVENT_CATEGORIES[event.category] })}
                       </p>
                     )}
 
@@ -169,7 +172,7 @@ export function EventsSection() {
             to={ROUTES.EVENTS}
             className="group inline-flex items-center gap-2.5 border border-carbon px-7 py-3.5 font-sans text-[13px] font-medium uppercase tracking-[0.08em] text-carbon transition-all duration-300 hover:bg-carbon hover:text-ivory"
           >
-            Tüm Etkinlikler
+            {t('common.seeAllEvents')}
             <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>

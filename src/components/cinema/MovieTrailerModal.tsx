@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { Clock, Film, Play, Star, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import type { Movie } from '@/types'
 
 interface MovieTrailerModalProps {
@@ -30,14 +31,17 @@ function getYouTubeEmbedUrl(value?: string): string | undefined {
   }
 }
 
-function formatDuration(duration?: number) {
+function formatDuration(duration: number | undefined, t: (key: string, options?: Record<string, number>) => string) {
   if (!duration) return undefined
   const hours = Math.floor(duration / 60)
   const minutes = duration % 60
-  return hours ? `${hours} sa${minutes ? ` ${minutes} dk` : ''}` : `${minutes} dk`
+  return hours
+    ? `${t('pages.cinema.durationHoursOnly', { hours })}${minutes ? ` ${t('pages.cinema.durationMinutes', { minutes })}` : ''}`
+    : t('pages.cinema.durationMinutes', { minutes })
 }
 
 export function MovieTrailerModal({ movie, onClose }: MovieTrailerModalProps) {
+  const { t } = useTranslation()
   const embedUrl = (() => {
     const providedEmbedUrl = movie.trailer?.provider === 'YOUTUBE' ? movie.trailer.embedUrl : undefined
     const candidate = providedEmbedUrl ?? getYouTubeEmbedUrl(movie.trailer_url)
@@ -95,7 +99,7 @@ export function MovieTrailerModal({ movie, onClose }: MovieTrailerModalProps) {
               <Film size={16} />
             </span>
             <div className="min-w-0">
-              <p className="font-sans text-[9px] font-semibold uppercase tracking-[0.24em] text-champagne/75">Film fragmanı</p>
+              <p className="font-sans text-[9px] font-semibold uppercase tracking-[0.24em] text-champagne/75">{t('pages.cinema.trailer')}</p>
               <h2 id="movie-trailer-title" className="truncate font-display text-lg font-light text-white sm:text-xl">
                 {movie.title}
               </h2>
@@ -104,7 +108,7 @@ export function MovieTrailerModal({ movie, onClose }: MovieTrailerModalProps) {
           <button
             type="button"
             onClick={onClose}
-            aria-label="Fragmanı kapat"
+            aria-label={t('pages.cinema.closeTrailer')}
             className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/10 text-white/55 transition hover:border-white/30 hover:bg-white/[0.06] hover:text-white"
           >
             <X size={18} />
@@ -117,7 +121,7 @@ export function MovieTrailerModal({ movie, onClose }: MovieTrailerModalProps) {
               <iframe
                 key={embedUrl}
                 src={embedUrl}
-                title={`${movie.title} fragmanı`}
+                title={t('pages.cinema.trailerTitle', { title: movie.title })}
                 className="absolute inset-0 h-full w-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
@@ -131,11 +135,11 @@ export function MovieTrailerModal({ movie, onClose }: MovieTrailerModalProps) {
                   <span className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-champagne/40 bg-black/30 text-champagne shadow-[0_0_45px_rgba(201,164,95,0.12)]">
                     {movie.trailer_url ? <Film size={23} /> : <Play size={23} fill="currentColor" className="ml-1" />}
                   </span>
-                  <p className="font-display text-2xl font-light text-white">Fragman hazırlanıyor</p>
+                  <p className="font-display text-2xl font-light text-white">{t('pages.cinema.trailerUnavailableTitle')}</p>
                   <p className="mt-2 font-sans text-sm leading-relaxed text-white/45">
                     {movie.trailer || movie.trailer_url
-                      ? 'Bu fragman bağlantısı YouTube videosu olarak açılamıyor.'
-                      : 'Bu film için henüz fragman eklenmemiş.'}
+                      ? t('pages.cinema.trailerUnsupported')
+                      : t('pages.cinema.trailerMissing')}
                   </p>
                 </div>
               </div>
@@ -147,17 +151,17 @@ export function MovieTrailerModal({ movie, onClose }: MovieTrailerModalProps) {
           <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-2">
             {movie.status === 'coming-soon' && (
               <span className="border border-champagne/30 bg-champagne/[0.08] px-2.5 py-1 font-sans text-[9px] font-semibold uppercase tracking-[0.14em] text-champagne">
-                Yakında
+                {t('pages.cinema.comingSoonBadge')}
               </span>
             )}
             {movie.genre?.slice(0, 3).map((genre) => (
               <span key={genre} className="font-sans text-[10px] font-medium uppercase tracking-[0.12em] text-white/45">
-                {genre}
+                {t(`cinemaGenres.${genre}`, { defaultValue: genre })}
               </span>
             ))}
-            {formatDuration(movie.duration) && (
+            {formatDuration(movie.duration, t) && (
               <span className="flex items-center gap-1.5 font-sans text-[11px] text-white/40">
-                <Clock size={12} /> {formatDuration(movie.duration)}
+                <Clock size={12} /> {formatDuration(movie.duration, t)}
               </span>
             )}
             {movie.tmdb_rating != null && movie.tmdb_rating > 0 && (

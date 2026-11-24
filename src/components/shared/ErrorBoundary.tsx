@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Component, type ReactNode, type ErrorInfo } from 'react'
 import { Button } from '@/components/ui/button'
+import i18n from '@/i18n/i18n'
 
 interface ErrorBoundaryProps {
   children: ReactNode
@@ -69,7 +70,7 @@ function SectionError({ onReset }: SectionErrorProps) {
       role="alert"
       className="flex flex-col items-center justify-center px-6 py-16 text-center"
     >
-      <p className="font-sans text-base text-graphite">İçerik yüklenirken bir hata oluştu.</p>
+      <p className="font-sans text-base text-graphite">{i18n.t('common.contentLoadError')}</p>
       {onReset && (
         <Button
           variant="outline"
@@ -77,7 +78,7 @@ function SectionError({ onReset }: SectionErrorProps) {
           onClick={onReset}
           className="mt-4"
         >
-          Tekrar Dene
+          {i18n.t('common.retry')}
         </Button>
       )}
     </div>

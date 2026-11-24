@@ -35,7 +35,7 @@ export function Footer() {
   ]
 
   return (
-    <footer className="bg-obsidian" aria-label="Site alt bilgisi">
+    <footer className="bg-obsidian" aria-label={t('footer.ariaLabel')}>
       {/* Main Footer */}
       <div className="mx-auto max-w-[1440px] px-6 pt-16 pb-12 lg:px-12 lg:pt-20">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-16">
@@ -44,7 +44,7 @@ export function Footer() {
             <Link
               to={ROUTES.HOME}
               className="mb-5 inline-flex items-center focus-visible:outline-none"
-              aria-label="Metrogarden AVM — Ana Sayfa"
+              aria-label={t('nav.homeAriaLabel')}
             >
               <Logo variant="light" size="lg" />
             </Link>

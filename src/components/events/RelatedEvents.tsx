@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { ArrowRight, MapPin, Clock } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import type { Event } from '@/types'
 import { ROUTES, EVENT_CATEGORIES } from '@/lib/constants'
 import { cn } from '@/lib/cn'
@@ -18,6 +19,8 @@ function isPastEvent(event: Event): boolean {
 }
 
 export function RelatedEvents({ events }: RelatedEventsProps) {
+  const { t, i18n } = useTranslation()
+  const locale = (i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR'
   if (events.length === 0) return null
 
   return (
@@ -35,7 +38,7 @@ export function RelatedEvents({ events }: RelatedEventsProps) {
             >
               <span className="h-px w-8 bg-champagne" />
               <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                İlgili Etkinlikler
+                {t('pages.events.relatedEyebrow')}
               </span>
             </motion.div>
             <motion.h2
@@ -46,7 +49,7 @@ export function RelatedEvents({ events }: RelatedEventsProps) {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="font-display text-3xl font-light text-carbon lg:text-4xl"
             >
-              Benzer Etkinlikler
+              {t('pages.events.relatedEvents')}
             </motion.h2>
           </div>
 
@@ -61,7 +64,7 @@ export function RelatedEvents({ events }: RelatedEventsProps) {
               className="group hidden items-center gap-2 font-sans text-[13px] font-medium text-graphite transition-all duration-300 hover:text-carbon md:flex"
             >
               <span className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-carbon after:transition-all after:duration-300 group-hover:after:w-full">
-                Tüm Etkinlikler
+                {t('common.seeAllEvents')}
               </span>
               <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
@@ -73,10 +76,12 @@ export function RelatedEvents({ events }: RelatedEventsProps) {
           {events.map((event, i) => {
             const isPast = isPastEvent(event)
             const dateInfo = {
-              day: new Date(event.date).toLocaleDateString('tr-TR', { day: 'numeric' }),
-              month: new Date(event.date).toLocaleDateString('tr-TR', { month: 'short' }).replace('.', '').toUpperCase(),
+              day: new Date(event.date).toLocaleDateString(locale, { day: 'numeric' }),
+              month: new Date(event.date).toLocaleDateString(locale, { month: 'short' }).replace('.', '').toUpperCase(),
             }
-            const categoryLabel = event.category ? (EVENT_CATEGORIES[event.category] ?? '') : ''
+            const categoryLabel = event.category
+              ? t(`eventCategories.${event.category}`, { defaultValue: EVENT_CATEGORIES[event.category] ?? '' })
+              : ''
             return (
               <motion.div
                 key={event.id}
@@ -117,7 +122,7 @@ export function RelatedEvents({ events }: RelatedEventsProps) {
                     {event.is_free && (
                       <div className="absolute right-0 top-0">
                         <span className="block bg-[#2d6a4f] px-2.5 py-1.5 font-sans text-[8px] font-semibold uppercase tracking-wide text-white">
-                          Ücretsiz
+                          {t('common.free')}
                         </span>
                       </div>
                     )}

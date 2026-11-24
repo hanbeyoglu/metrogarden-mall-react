@@ -6,6 +6,7 @@ import { Navbar } from './Navbar'
 import { Footer } from './Footer'
 import { SearchProvider } from '@/contexts/SearchContext'
 import { SearchModal } from '@/components/shared/SearchModal'
+import { useTranslation } from 'react-i18next'
 import { cleanInternalPath, trackAnalytics } from '@/lib/analytics'
 import { createLocationVisitGate } from '@/lib/analyticsCore'
 
@@ -41,6 +42,7 @@ function trackInternalLinkClick(event: MouseEvent<HTMLDivElement>) {
  * The id="main-content" is the skip-link target (accessibility).
  */
 export function PageLayout() {
+  const { t } = useTranslation()
   usePageViewTracking()
 
   return (
@@ -48,7 +50,7 @@ export function PageLayout() {
       <div className="flex min-h-dvh flex-col bg-ivory" onClickCapture={trackInternalLinkClick}>
         {/* Skip to main content — visible only on keyboard focus */}
         <a href="#main-content" className="skip-link">
-          Ana içeriğe geç
+          {t('common.skipToContent')}
         </a>
 
         <Navbar />

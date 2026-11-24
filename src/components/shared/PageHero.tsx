@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { ChevronRight } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 
 export interface Breadcrumb {
   label: string
@@ -28,6 +29,7 @@ export function PageHero({
   breadcrumbs,
   height = 'md',
 }: PageHeroProps) {
+  const { t } = useTranslation()
   return (
     <section
       className={`relative flex w-full items-end overflow-hidden bg-obsidian ${HEIGHT_CLASSES[height]}`}
@@ -59,7 +61,7 @@ export function PageHero({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="mb-5 flex items-center gap-1.5 font-sans text-[11px] text-white/45"
-              aria-label="Sayfa konumu"
+              aria-label={t('common.breadcrumb')}
             >
               {breadcrumbs.map((crumb, i) => (
                 <span key={i} className="flex items-center gap-1.5">

@@ -73,7 +73,7 @@ export function CampaignsPage() {
         campaigns={allCampaigns}
       />
 
-      <section className="bg-ivory py-12 lg:py-16" aria-label="Kampanya listesi">
+      <section className="bg-ivory py-12 lg:py-16" aria-label={t('pages.campaigns.listAriaLabel')}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
           {filteredCampaigns.length > 0 ? (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">

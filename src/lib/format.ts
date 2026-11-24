@@ -1,11 +1,11 @@
 import type { StoreCategory, StoreFloor, EventCategory } from '@/types'
 import { STORE_CATEGORIES, STORE_FLOORS, EVENT_CATEGORIES, ENDING_SOON_DAYS } from './constants'
 
-const TR_LOCALE = 'tr-TR'
+const DEFAULT_LOCALE = 'tr-TR'
 
 /** Full date: "15 Temmuz 2026" */
-export function formatDateFull(dateString: string): string {
-  return new Date(dateString).toLocaleDateString(TR_LOCALE, {
+export function formatDateFull(dateString: string, locale = DEFAULT_LOCALE): string {
+  return new Date(dateString).toLocaleDateString(locale, {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -13,56 +13,56 @@ export function formatDateFull(dateString: string): string {
 }
 
 /** Short date: "15 Tem" */
-export function formatDateShort(dateString: string): string {
-  return new Date(dateString).toLocaleDateString(TR_LOCALE, {
+export function formatDateShort(dateString: string, locale = DEFAULT_LOCALE): string {
+  return new Date(dateString).toLocaleDateString(locale, {
     day: 'numeric',
     month: 'short',
   })
 }
 
 /** Day number: "15" */
-export function formatDay(dateString: string): string {
-  return new Date(dateString).toLocaleDateString(TR_LOCALE, { day: 'numeric' })
+export function formatDay(dateString: string, locale = DEFAULT_LOCALE): string {
+  return new Date(dateString).toLocaleDateString(locale, { day: 'numeric' })
 }
 
 /** Month name: "Temmuz" */
-export function formatMonth(dateString: string): string {
-  return new Date(dateString).toLocaleDateString(TR_LOCALE, { month: 'long' })
+export function formatMonth(dateString: string, locale = DEFAULT_LOCALE): string {
+  return new Date(dateString).toLocaleDateString(locale, { month: 'long' })
 }
 
 /** Short month: "Tem" */
-export function formatMonthShort(dateString: string): string {
-  return new Date(dateString).toLocaleDateString(TR_LOCALE, { month: 'short' })
+export function formatMonthShort(dateString: string, locale = DEFAULT_LOCALE): string {
+  return new Date(dateString).toLocaleDateString(locale, { month: 'short' })
 }
 
 /** Year: "2026" */
-export function formatYear(dateString: string): string {
-  return new Date(dateString).toLocaleDateString(TR_LOCALE, { year: 'numeric' })
+export function formatYear(dateString: string, locale = DEFAULT_LOCALE): string {
+  return new Date(dateString).toLocaleDateString(locale, { year: 'numeric' })
 }
 
 /** Month + Year: "Temmuz 2026" */
-export function formatMonthYear(dateString: string): string {
-  return new Date(dateString).toLocaleDateString(TR_LOCALE, {
+export function formatMonthYear(dateString: string, locale = DEFAULT_LOCALE): string {
+  return new Date(dateString).toLocaleDateString(locale, {
     month: 'long',
     year: 'numeric',
   })
 }
 
 /** Date range: "15 Temmuz – 30 Ağustos 2026" */
-export function formatDateRange(start: string, end?: string): string {
-  if (!end) return formatDateFull(start)
+export function formatDateRange(start: string, end?: string, locale = DEFAULT_LOCALE): string {
+  if (!end) return formatDateFull(start, locale)
   const startDate = new Date(start)
   const endDate = new Date(end)
   const sameYear = startDate.getFullYear() === endDate.getFullYear()
   const sameMonth = sameYear && startDate.getMonth() === endDate.getMonth()
 
   if (sameMonth) {
-    return `${formatDay(start)} – ${formatDateFull(end)}`
+    return `${formatDay(start, locale)} – ${formatDateFull(end, locale)}`
   }
   if (sameYear) {
-    return `${formatDateShort(start)} – ${formatDateFull(end)}`
+    return `${formatDateShort(start, locale)} – ${formatDateFull(end, locale)}`
   }
-  return `${formatDateFull(start)} – ${formatDateFull(end)}`
+  return `${formatDateFull(start, locale)} – ${formatDateFull(end, locale)}`
 }
 
 /** Duration in minutes to "1s 45dk" */

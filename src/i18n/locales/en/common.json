@@ -11,7 +11,10 @@
     "closeMenu": "Close menu",
     "openSearch": "Open search",
     "search": "Search",
-    "searchShortcut": "⌘K"
+    "searchShortcut": "⌘K",
+    "homeAriaLabel": "Metrogarden Mall — Home",
+    "mainMenu": "Main menu",
+    "mallHours": "10:00 AM – 10:00 PM"
   },
   "footer": {
     "explore": "Explore",
@@ -33,7 +36,8 @@
       "services": "Services",
       "about": "About",
       "contact": "Contact"
-    }
+    },
+    "ariaLabel": "Site footer"
   },
   "lang": {
     "tr": "Türkçe",
@@ -97,7 +101,21 @@
     "validFrom": "Valid from",
     "terms": "Terms & Conditions",
     "updated": "Last Updated",
-    "skipToContent": "Skip to main content"
+    "skipToContent": "Skip to main content",
+    "breadcrumb": "Breadcrumb",
+    "contentLoadError": "An error occurred while loading content.",
+    "retry": "Try Again",
+    "openImage": "Enlarge image",
+    "closeWithEscape": "Close (Esc)",
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "loadingPage": "Page loading",
+    "description": "Description",
+    "status": "Status",
+    "validity": "Validity",
+    "lastDay": "Last day",
+    "imageNumber": "Image {{number}}",
+    "workingHours": "Working Hours"
   },
   "sort": {
     "az": "A → Z",
@@ -197,7 +215,12 @@
       "eventsCta": "See All Events",
       "cinemaTitle": "Cinema",
       "cinemaSubtitle": "Now showing.",
-      "cinemaCta": "Go to Cinema"
+      "cinemaCta": "Go to Cinema",
+      "featuredContent": "Featured content",
+      "campaignsEyebrow": "Offers",
+      "eventsEyebrow": "Calendar",
+      "campaignValidUntil": "Until {{date}}",
+      "storesHeadline": "Explore Our Stores"
     },
     "stores": {
       "heroTitle": "Stores",
@@ -216,8 +239,14 @@
       "gallery": "Gallery",
       "relatedStores": "Similar Stores",
       "detail": {
-        "breadcrumb": "Stores"
-      }
+        "breadcrumb": "Stores",
+        "aboutTitle": "{{name}} at Metrogarden",
+        "infoTitle": "Store Information",
+        "findStore": "Find the Store"
+      },
+      "listAriaLabel": "Store list",
+      "sameCategory": "From the Same Category",
+      "galleryImage": "{{name}} gallery image {{number}}"
     },
     "campaigns": {
       "heroTitle": "Campaigns",
@@ -237,8 +266,17 @@
       "terms": "Terms & Conditions",
       "detail": {
         "breadcrumb": "Campaigns",
-        "by": "Store"
-      }
+        "by": "Store",
+        "eyebrow": "Campaign Details",
+        "infoTitle": "Campaign Information",
+        "discount": "Discount / Offer",
+        "viewStore": "View Store"
+      },
+      "listAriaLabel": "Campaign list",
+      "endingSoonStatus": "Ending Soon · Last 7 Days",
+      "expiredStatus": "This campaign has expired",
+      "dateRange": "{{range}}",
+      "relatedEyebrow": "Related Offers"
     },
     "events": {
       "heroTitle": "Events",
@@ -258,8 +296,16 @@
         "ticketFree": "Free Entry",
         "ticketPaid": "Paid",
         "shareEvent": "Share Event",
-        "openMaps": "Open in Google Maps"
-      }
+        "openMaps": "Open in Google Maps",
+        "aboutEvent": "About the Event",
+        "summary": "Event Summary",
+        "shareOnTwitter": "Share on Twitter",
+        "shareOnFacebook": "Share on Facebook",
+        "eventGallery": "{{title}} event gallery",
+        "getTicket": "Get Tickets"
+      },
+      "listAriaLabel": "Events list",
+      "relatedEyebrow": "Related Events"
     },
     "services": {
       "heroTitle": "Services",
@@ -309,18 +355,130 @@
       "director": "Dir:",
       "cast": "Cast:",
       "releaseDate": "Release:",
-      "language": "Language:"
+      "language": "Language:",
+      "brandEyebrow": "Metrogarden Cinema",
+      "dateSelector": "Choose a day",
+      "today": "Today",
+      "watchTrailer": "Watch trailer",
+      "openTrailer": "Open {{title}} trailer",
+      "featured": "Featured",
+      "comingSoonInCinema": "Coming Soon to Cinemas",
+      "noShowtimes": "No showtimes available",
+      "trailer": "Movie trailer",
+      "closeTrailer": "Close trailer",
+      "trailerTitle": "{{title}} trailer",
+      "trailerUnavailableTitle": "Trailer unavailable",
+      "trailerUnsupported": "This trailer link cannot be played as a YouTube video.",
+      "trailerMissing": "A trailer has not been added for this film yet.",
+      "durationMinutes": "{{minutes}} min",
+      "seeAllMovies": "View All Movies"
     },
     "about": {
       "heroTitle": "About Us",
-      "heroSubtitle": "At the heart of Istanbul, since 2010.",
+      "heroSubtitle": "More than shopping, in the heart of Istanbul.",
       "intro": "Our Story",
-      "timeline": "Our History",
+      "timeline": "Our Milestones",
       "stats": "Metrogarden in Numbers",
       "values": "Our Values",
       "ctaTitle": "Get in Touch",
       "ctaDesc": "Reach us for brands, events or corporate collaborations.",
-      "ctaButton": "Contact Page"
+      "ctaButton": "Contact Us",
+      "metaDescription": "Discover Metrogarden Mall, our story and our values.",
+      "introLead": "A meeting place at the heart of life in Kartal since 2010.",
+      "introDescription": "Metrogarden Mall brings together shopping, events and dining for a varied visitor experience.",
+      "storyTitle": "A Vision Taking Shape",
+      "storyParagraph1": "Opened in 2010, Metrogarden Mall began welcoming visitors in Kartal with a modern design and a diverse store selection. The idea was to create a place where people could meet, enjoy themselves and share experiences.",
+      "storyParagraph2": "Metrogarden aims to offer more than shopping through its stores, events and dining options.",
+      "mallImageAlt": "Interior of Metrogarden Mall",
+      "timelineTitle": "Metrogarden Through the Years",
+      "timelineDescription": "Highlights from Metrogarden’s development.",
+      "sustainability": "Sustainability",
+      "sustainabilityTitle": "Taking Action Today for Tomorrow",
+      "sustainabilityParagraph1": "Metrogarden works to improve the efficiency of its energy and resource use.",
+      "sustainabilityParagraph2": "We aim to strengthen our sustainability approach through waste management and environmental awareness initiatives.",
+      "sustainabilityImageAlt": "Sustainability initiatives",
+      "valuesTitle": "Principles That Define Us",
+      "visitEyebrow": "Visit Us",
+      "visitTitle": "We Look Forward to Welcoming You",
+      "visitDescription": "We look forward to welcoming you to explore our stores, events and services.",
+      "timelineItems": [
+        {
+          "year": "2010",
+          "title": "Metrogarden Mall Opens",
+          "description": "Metrogarden begins welcoming visitors in Kartal.",
+          "highlight": false
+        },
+        {
+          "year": "2013",
+          "title": "Cinema and Entertainment",
+          "description": "Cinema halls and entertainment areas expand the visitor experience.",
+          "highlight": false
+        },
+        {
+          "year": "2016",
+          "title": "Renovation",
+          "description": "Shared and visitor areas are renewed.",
+          "highlight": false
+        },
+        {
+          "year": "2019",
+          "title": "A Wider Store Selection",
+          "description": "New stores expand the brand selection.",
+          "highlight": true
+        },
+        {
+          "year": "2022",
+          "title": "Sustainability Initiatives",
+          "description": "Energy efficiency and resource management become key focus areas.",
+          "highlight": false
+        },
+        {
+          "year": "2024",
+          "title": "Digital Transformation",
+          "description": "Digital platforms make store, campaign and event information easier to access.",
+          "highlight": false
+        }
+      ],
+      "statItems": [
+        {
+          "value": "240K",
+          "label": "Square Metres",
+          "sublabel": "Total indoor area"
+        },
+        {
+          "value": "220+",
+          "label": "Stores",
+          "sublabel": "Local and international brands"
+        },
+        {
+          "value": "10M+",
+          "label": "Annual Visitors",
+          "sublabel": "Average annual footfall"
+        },
+        {
+          "value": "2010",
+          "label": "Opened",
+          "sublabel": "Welcoming visitors since"
+        }
+      ],
+      "valueItems": [
+        {
+          "title": "Visitor Focus",
+          "description": "We aim to improve the visitor experience by listening and responding."
+        },
+        {
+          "title": "Sustainability",
+          "description": "We support efficient resource use and environmentally conscious practices."
+        },
+        {
+          "title": "Innovation",
+          "description": "We improve the shopping experience through digital solutions and evolving services."
+        },
+        {
+          "title": "Trust and Transparency",
+          "description": "We value fairness and openness with our stores, employees and visitors."
+        }
+      ]
     },
     "contact": {
       "heroTitle": "Contact",
@@ -332,14 +490,28 @@
       "address": "Address",
       "phone": "Phone",
       "email": "Email",
-      "quickLinks": "Quick Links"
+      "quickLinks": "Quick Links",
+      "metaDescription": "Contact Metrogarden Mall for its address, phone number, email and working hours.",
+      "formEyebrow": "Write to Us",
+      "infoEyebrow": "Mall Information",
+      "cityDistrict": "Istanbul — Kartal",
+      "ctaTitle": "In the Heart of Istanbul",
+      "ctaHighlight": "We Welcome You",
+      "storeStat": "Stores",
+      "floorStat": "Floors",
+      "parkingStat": "Parking Spaces",
+      "mapTitle": "Metrogarden Mall Location"
     },
     "legal": {
       "breadcrumb": "Legal",
       "otherDocs": "Other Documents",
       "toc": "Table of Contents",
       "printLabel": "Print",
-      "lastUpdated": "Last Updated"
+      "lastUpdated": "Last Updated",
+      "breadcrumbHome": "Home",
+      "documentsEyebrow": "Legal Documents",
+      "englishUnavailableTitle": "This document is not available in English",
+      "englishUnavailableDesc": "An English version has not been published yet. Please switch to Turkish to read this document."
     },
     "notFound": {
       "eyebrow": "404 — Page Not Found",
@@ -433,5 +605,11 @@
       "rateLimit": "You have sent too many messages. Please try again later.",
       "sendFailed": "Your message could not be sent. Please try again."
     }
+  },
+  "dev": {
+    "cmsConfigMissing": "CMS API settings are missing; sample content is displayed.",
+    "cmsConnecting": "Connecting to the CMS API…",
+    "cmsConnectionFailed": "Could not connect to the CMS API; sample content is displayed.",
+    "cmsConnected": "Connected to the CMS API; live content loaded."
   }
 }

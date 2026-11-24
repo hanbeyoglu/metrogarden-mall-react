@@ -1,9 +1,12 @@
 import { MapPin, Clock, Phone, ExternalLink } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { useMallContent } from '@/hooks/useCmsContent'
 
 export function ContactCTA() {
+  const { t, i18n } = useTranslation()
   const mall = useMallContent()
+  const locale = (i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR'
   return (
     <section
       className="relative overflow-hidden bg-carbon py-24 lg:py-32"
@@ -28,7 +31,7 @@ export function ContactCTA() {
             >
               <span className="h-px w-8 bg-champagne" />
               <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                Bize Ulaşın
+                {t('pages.contact.heroTitle')}
               </span>
             </motion.div>
 
@@ -40,9 +43,9 @@ export function ContactCTA() {
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
               className="mb-6 font-display text-4xl font-light leading-[1.05] text-silver lg:text-5xl xl:text-6xl"
             >
-              İstanbul'un Kalbinde{' '}
+              {t('pages.contact.ctaTitle')}{' '}
               <br className="hidden lg:block" />
-              <span className="text-champagne">Sizi Bekliyoruz</span>
+              <span className="text-champagne">{t('pages.contact.ctaHighlight')}</span>
             </motion.h2>
 
             <motion.p
@@ -65,9 +68,9 @@ export function ContactCTA() {
                 className="grid grid-cols-3 gap-0 border-t border-white/[0.08] pt-10"
               >
                 {[
-                  { value: `${mall.stats.store_count}+`, label: 'Mağaza' },
-                  { value: `${mall.stats.floor_count}`, label: 'Kat' },
-                  { value: mall.stats.parking_capacity.toLocaleString('tr-TR'), label: 'Araçlık Park' },
+                  { value: `${mall.stats.store_count}+`, label: t('pages.contact.storeStat') },
+                  { value: `${mall.stats.floor_count}`, label: t('pages.contact.floorStat') },
+                  { value: mall.stats.parking_capacity.toLocaleString(locale), label: t('pages.contact.parkingStat') },
                 ].map(({ value, label }, i) => (
                   <div key={label} className={i > 0 ? 'border-l border-white/[0.08] pl-8' : 'pr-8'}>
                     <p className="font-display text-4xl font-light text-silver lg:text-5xl">
@@ -96,7 +99,7 @@ export function ContactCTA() {
                   {mall.name}
                 </h3>
                 <p className="mt-1 font-sans text-[12px] text-white/30">
-                  İstanbul — Kartal
+                  {t('pages.contact.cityDistrict')}
                 </p>
               </div>
 
@@ -108,7 +111,7 @@ export function ContactCTA() {
                   </div>
                   <div>
                     <p className="mb-1 font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-white/35">
-                      Adres
+                      {t('pages.contact.address')}
                     </p>
                     <p className="font-sans text-[13px] font-light leading-[1.65] text-white/70">
                       {mall.address}
@@ -122,7 +125,7 @@ export function ContactCTA() {
                   </div>
                   <div>
                     <p className="mb-1 font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-white/35">
-                      Çalışma Saatleri
+                      {t('pages.contact.workingHours')}
                     </p>
                     <p className="font-sans text-[13px] font-light text-white/70">
                       {mall.working_hours?.schedule}
@@ -141,7 +144,7 @@ export function ContactCTA() {
                   </div>
                   <div>
                     <p className="mb-1 font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-white/35">
-                      Telefon
+                      {t('pages.contact.phone')}
                     </p>
                     <a
                       href={`tel:${mall.phone.replace(/\s/g, '')}`}
@@ -161,7 +164,7 @@ export function ContactCTA() {
                   rel="noopener noreferrer"
                   className="group mt-8 flex w-full items-center justify-center gap-3 bg-champagne py-4 font-sans text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-champagne-80"
                 >
-                  Yol Tarifi Al
+                  {t('common.directions')}
                   <ExternalLink
                     size={13}
                     className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

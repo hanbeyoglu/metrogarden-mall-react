@@ -5,6 +5,7 @@ import { Autoplay, EffectFade } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
 import { ArrowRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { useSliderContent } from '@/hooks/useCmsContent'
 import { cn } from '@/lib/cn'
 import { trackAnalytics } from '@/lib/analytics'
@@ -13,6 +14,7 @@ import 'swiper/css'
 import 'swiper/css/effect-fade'
 
 export function HeroSlider() {
+  const { t } = useTranslation()
   const sliders = useSliderContent()
   const swiperRef = useRef<SwiperType | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
@@ -28,7 +30,7 @@ export function HeroSlider() {
   return (
     <section
       className="relative h-dvh min-h-[640px] w-full overflow-hidden bg-obsidian"
-      aria-label="Öne çıkan içerikler"
+      aria-label={t('pages.home.featuredContent')}
     >
       <Swiper
         modules={[Autoplay, EffectFade]}

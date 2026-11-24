@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { ArrowRight, Clock, Play } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { useMovieContent } from '@/hooks/useCmsContent'
 import { ROUTES } from '@/lib/constants'
 import type { Movie } from '@/types'
@@ -9,6 +10,7 @@ import { MovieTrailerModal } from '@/components/cinema/MovieTrailerModal'
 import { trackAnalytics } from '@/lib/analytics'
 
 export function CinemaSection() {
+  const { t } = useTranslation()
   const { currentMovies } = useMovieContent()
   const [trailerMovie, setTrailerMovie] = useState<Movie | null>(null)
   const featuredMovies = useMemo(() => {
@@ -43,7 +45,7 @@ export function CinemaSection() {
             >
               <span className="h-px w-8 bg-champagne" />
               <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                Sinema
+                {t('pages.cinema.heroTitle')}
               </span>
             </motion.div>
             <motion.h2
@@ -54,7 +56,7 @@ export function CinemaSection() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="font-display text-4xl font-light leading-[1.05] text-silver lg:text-5xl"
             >
-              Vizyondaki Filmler
+              {t('pages.home.cinemaTitle')}
             </motion.h2>
           </div>
 
@@ -69,7 +71,7 @@ export function CinemaSection() {
               className="group hidden items-center gap-2 font-sans text-[13px] font-medium text-white/40 transition-all duration-300 hover:text-white/80 md:flex"
             >
               <span className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-white/60 after:transition-all after:duration-300 group-hover:after:w-full">
-                Tüm Filmler
+                {t('pages.cinema.seeAllMovies')}
               </span>
               <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
@@ -94,7 +96,7 @@ export function CinemaSection() {
                     void trackAnalytics({ entityType: 'MOVIE', eventType: 'MOVIE_CLICK', entityId: movie.analytics_id, path: '/', source: 'home-cinema' })
                     setTrailerMovie(movie)
                   }}
-                  aria-label={`${movie.title} fragmanını aç`}
+                  aria-label={t('pages.cinema.openTrailer', { title: movie.title })}
                   className="group/poster relative block aspect-poster w-full overflow-hidden text-left"
                 >
                   <img
@@ -133,7 +135,7 @@ export function CinemaSection() {
                           key={g}
                           className="border border-white/20 bg-black/40 px-2 py-0.5 font-sans text-[9px] font-medium uppercase tracking-[0.1em] text-white/60 backdrop-blur-sm"
                         >
-                          {g}
+                          {t(`cinemaGenres.${g}`, { defaultValue: g })}
                         </span>
                       ))}
                     </div>
@@ -163,7 +165,7 @@ export function CinemaSection() {
                     {movie.duration && (
                       <span className="flex items-center gap-1">
                         <Clock size={10} />
-                        {movie.duration} dk
+                        {t('pages.cinema.durationMinutes', { minutes: movie.duration })}
                       </span>
                     )}
                   </div>
@@ -192,7 +194,7 @@ export function CinemaSection() {
                       to={ROUTES.CINEMA}
                       className="group/btn flex w-full items-center justify-center gap-2 border border-champagne/30 py-3 font-sans text-[12px] font-medium uppercase tracking-[0.1em] text-champagne/80 transition-all duration-300 hover:border-champagne hover:bg-champagne hover:text-white"
                     >
-                      Seans Saatleri
+                      {t('pages.cinema.selectTime')}
                       <ArrowRight
                         size={13}
                         className="transition-transform duration-300 group-hover/btn:translate-x-0.5"
@@ -217,7 +219,7 @@ export function CinemaSection() {
             to={ROUTES.CINEMA}
             className="group inline-flex items-center gap-2.5 border border-white/25 px-7 py-3.5 font-sans text-[13px] font-medium uppercase tracking-[0.08em] text-white/70 transition-all duration-300 hover:border-white/60 hover:text-white"
           >
-            Tüm Filmler
+            {t('pages.cinema.seeAllMovies')}
             <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>

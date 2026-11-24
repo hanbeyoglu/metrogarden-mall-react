@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { ArrowRight, Clock } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import type { Campaign } from '@/types'
 import { ROUTES } from '@/lib/constants'
 import { formatDateRange } from '@/lib/format'
@@ -12,6 +13,8 @@ interface RelatedCampaignsProps {
 }
 
 export function RelatedCampaigns({ campaigns }: RelatedCampaignsProps) {
+  const { t, i18n } = useTranslation()
+  const locale = (i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR'
   if (campaigns.length === 0) return null
 
   return (
@@ -29,7 +32,7 @@ export function RelatedCampaigns({ campaigns }: RelatedCampaignsProps) {
             >
               <span className="h-px w-8 bg-champagne" />
               <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                İlgili Fırsatlar
+                {t('pages.campaigns.relatedEyebrow')}
               </span>
             </motion.div>
             <motion.h2
@@ -40,7 +43,7 @@ export function RelatedCampaigns({ campaigns }: RelatedCampaignsProps) {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="font-display text-3xl font-light text-carbon lg:text-4xl"
             >
-              Benzer Kampanyalar
+              {t('pages.campaigns.relatedCampaigns')}
             </motion.h2>
           </div>
 
@@ -55,7 +58,7 @@ export function RelatedCampaigns({ campaigns }: RelatedCampaignsProps) {
               className="group hidden items-center gap-2 font-sans text-[13px] font-medium text-graphite transition-all duration-300 hover:text-carbon md:flex"
             >
               <span className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-carbon after:transition-all after:duration-300 group-hover:after:w-full">
-                Tüm Kampanyalar
+                {t('common.seeAllCampaigns')}
               </span>
               <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
@@ -127,8 +130,8 @@ export function RelatedCampaigns({ campaigns }: RelatedCampaignsProps) {
                         <Clock size={11} className="shrink-0" />
                         <span>
                           {isExpired
-                            ? 'Süresi doldu'
-                            : `${formatDateRange(campaign.start_date, campaign.end_date)} arası`}
+                            ? t('status.expired')
+                            : t('pages.campaigns.dateRange', { range: formatDateRange(campaign.start_date, campaign.end_date, locale) })}
                         </span>
                       </div>
                     )}

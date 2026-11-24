@@ -5,6 +5,7 @@ import {
   Share2, Twitter, Facebook, Link as LinkIcon, Check,
 } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { useMeta } from '@/hooks'
 import { useEventContent, useEventDetailContent } from '@/hooks/useCmsContent'
 import { ROUTES, EVENT_CATEGORIES } from '@/lib/constants'
@@ -19,6 +20,8 @@ import 'swiper/css/effect-fade'
 import { useAnalyticsView } from '@/hooks/useAnalyticsView'
 
 export function EventDetailPage() {
+  const { t, i18n } = useTranslation()
+  const locale = (i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR'
   const { slug } = useParams<{ slug: string }>()
   const { events: allEvents } = useEventContent()
   const eventDetail = useEventDetailContent(slug)
@@ -58,8 +61,8 @@ export function EventDetailPage() {
 
   /* Date display */
   const dateDisplay = event.end_date
-    ? formatDateRange(event.date, event.end_date)
-    : formatDateFull(event.date)
+    ? formatDateRange(event.date, event.end_date, locale)
+    : formatDateFull(event.date, locale)
 
   /* Share handlers */
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
@@ -88,7 +91,7 @@ export function EventDetailPage() {
               autoplay={{ delay: 5000, disableOnInteraction: false }}
               loop
               className="h-full w-full"
-              aria-label={`${event.title} görselleri`}
+              aria-label={t('pages.events.detail.eventGallery', { title: event.title })}
             >
               {heroImages.map((image, index) => (
                 <SwiperSlide key={`${image}-${index}`}>
@@ -118,10 +121,10 @@ export function EventDetailPage() {
         {/* Breadcrumb */}
         <div className="absolute left-0 right-0 top-0 z-10 px-6 pt-[90px] lg:px-12 lg:pt-[100px]">
           <div className="mx-auto max-w-[1440px]">
-            <nav className="flex items-center gap-1.5 font-sans text-[11px] text-white/40" aria-label="Sayfa konumu">
-              <Link to={ROUTES.HOME} className="transition-colors hover:text-white/70">Ana Sayfa</Link>
+            <nav className="flex items-center gap-1.5 font-sans text-[11px] text-white/40" aria-label={t('common.breadcrumb')}>
+              <Link to={ROUTES.HOME} className="transition-colors hover:text-white/70">{t('pages.notFound.links.home')}</Link>
               <ChevronRight size={11} className="text-white/25" />
-              <Link to={ROUTES.EVENTS} className="transition-colors hover:text-white/70">Etkinlikler</Link>
+              <Link to={ROUTES.EVENTS} className="transition-colors hover:text-white/70">{t('pages.events.detail.breadcrumb')}</Link>
               <ChevronRight size={11} className="text-white/25" />
               <span className="line-clamp-1 text-white/65">{event.title}</span>
             </nav>
@@ -140,14 +143,14 @@ export function EventDetailPage() {
             >
               {isPast ? (
                 <span className="bg-[#4a4a4a] px-3 py-1 font-sans text-[10px] font-semibold uppercase tracking-[0.1em] text-white/60">
-                  Geçmiş Etkinlik
+                  {t('pages.events.pastEvent')}
                 </span>
               ) : event.is_free !== undefined ? (
                 <span className={cn(
                   'px-3 py-1 font-sans text-[10px] font-semibold uppercase tracking-[0.1em] text-white',
                   event.is_free ? 'bg-[#2d6a4f]' : 'bg-champagne',
                 )}>
-                  {event.is_free ? 'Ücretsiz' : 'Ücretli'}
+                  {event.is_free ? t('pages.events.freeEvent') : t('pages.events.detail.ticketPaid')}
                 </span>
               ) : null}
               {categoryLabel && (
@@ -182,7 +185,7 @@ export function EventDetailPage() {
                 className="group mb-8 inline-flex items-center gap-2 font-sans text-[13px] text-graphite transition-colors hover:text-carbon"
               >
                 <ArrowLeft size={14} className="transition-transform duration-300 group-hover:-translate-x-1" />
-                Tüm Etkinlikler
+                {t('common.backToEvents')}
               </Link>
 
               <motion.div
@@ -194,7 +197,7 @@ export function EventDetailPage() {
                 <div className="mb-4 flex items-center gap-3">
                   <span className="h-px w-8 bg-champagne" />
                   <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                    Etkinlik Hakkında
+                    {t('pages.events.detail.aboutEvent')}
                   </span>
                 </div>
                 <h2 className="mb-6 font-display text-2xl font-light text-carbon lg:text-3xl">
@@ -219,7 +222,7 @@ export function EventDetailPage() {
                   <div className="mb-6 flex items-center gap-3">
                     <span className="h-px w-8 bg-champagne" />
                     <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                      Galeri
+                      {t('common.gallery')}
                     </span>
                   </div>
                   <StoreGallery images={gallery} storeName={event.title} />
@@ -237,32 +240,32 @@ export function EventDetailPage() {
               <div className="sticky top-[92px]">
                 <div className="border border-mist/60 bg-white p-6 lg:p-7">
                   <h3 className="mb-6 border-b border-mist/60 pb-5 font-display text-xl font-light text-carbon">
-                    Etkinlik Özeti
+                    {t('pages.events.detail.summary')}
                   </h3>
 
                   <div className="space-y-5">
                     {/* Date */}
-                    <SidebarRow icon={<Clock size={14} />} label="Tarih">
+                    <SidebarRow icon={<Clock size={14} />} label={t('common.date')}>
                       {dateDisplay}
                     </SidebarRow>
 
                     {/* Time */}
                     {event.time && (
-                      <SidebarRow icon={<Clock size={14} />} label="Saat">
+                      <SidebarRow icon={<Clock size={14} />} label={t('common.time')}>
                         {event.time}{event.end_time ? ` – ${event.end_time}` : ''}
                       </SidebarRow>
                     )}
 
                     {/* Location */}
                     {event.location && (
-                      <SidebarRow icon={<MapPin size={14} />} label="Yer">
+                      <SidebarRow icon={<MapPin size={14} />} label={t('common.location')}>
                         {event.location} — Metrogarden AVM
                       </SidebarRow>
                     )}
 
                     {/* Organizer */}
                     {event.organizer && (
-                      <SidebarRow icon={<Share2 size={14} />} label="Organizatör">
+                      <SidebarRow icon={<Share2 size={14} />} label={t('common.organizer')}>
                         {event.organizer}
                       </SidebarRow>
                     )}
@@ -273,10 +276,10 @@ export function EventDetailPage() {
                         {event.is_free ? (
                           <span className="inline-flex items-center gap-1.5 text-[#2d6a4f]">
                             <span className="h-2 w-2 rounded-full bg-[#2d6a4f]" />
-                            Ücretsiz
+                            {t('common.free')}
                           </span>
                         ) : (
-                          <span>{event.ticket_price ?? 'Ücretli'}</span>
+                          <span>{event.ticket_price ?? t('status.paid')}</span>
                         )}
                       </SidebarRow>
                     )}
@@ -291,7 +294,7 @@ export function EventDetailPage() {
                       className="group mt-6 flex w-full items-center justify-center gap-2.5 bg-champagne py-3.5 font-sans text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-champagne-80"
                     >
                       <Ticket size={13} />
-                      Bilet Al
+                      {t('pages.events.detail.getTicket')}
                       <ExternalLink size={11} className="opacity-60" />
                     </a>
                   )}
@@ -305,21 +308,21 @@ export function EventDetailPage() {
                       className="group mt-3 flex w-full items-center justify-center gap-2.5 border border-mist bg-white py-3 font-sans text-[12px] font-medium text-graphite transition-all duration-300 hover:border-carbon hover:text-carbon"
                     >
                       <MapPin size={13} />
-                      Google Maps\'te Aç
+                      {t('common.openInMaps')}
                     </a>
                   )}
 
                   {/* Share buttons */}
                   <div className="mt-6 border-t border-mist/60 pt-5">
                     <p className="mb-3 font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-ash">
-                      Paylaş
+                      {t('pages.events.detail.shareEvent')}
                     </p>
                     <div className="flex items-center gap-2">
                       <a
                         href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="Twitter\'da paylaş"
+                        aria-label={t('pages.events.detail.shareOnTwitter')}
                         className="flex h-8 w-8 items-center justify-center border border-mist text-graphite transition-all hover:border-champagne/50 hover:text-champagne"
                       >
                         <Twitter size={13} />
@@ -328,14 +331,14 @@ export function EventDetailPage() {
                         href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="Facebook\'ta paylaş"
+                        aria-label={t('pages.events.detail.shareOnFacebook')}
                         className="flex h-8 w-8 items-center justify-center border border-mist text-graphite transition-all hover:border-champagne/50 hover:text-champagne"
                       >
                         <Facebook size={13} />
                       </a>
                       <button
                         onClick={handleCopyLink}
-                        aria-label="Bağlantıyı kopyala"
+                        aria-label={t('common.copyLink')}
                         className={cn(
                           'flex h-8 w-8 items-center justify-center border transition-all',
                           copied

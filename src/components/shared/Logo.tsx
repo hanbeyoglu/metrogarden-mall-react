@@ -20,7 +20,7 @@ export function Logo({
   scrolled = false,
   size = 'md',
   className,
-  alt = 'Metrogarden Alışveriş Merkezi',
+  alt = 'Metrogarden Mall',
 }: LogoProps) {
   const isLightText = variant === 'light' || (variant === 'adaptive' && !scrolled)
   const logoSrc = isLightText ? logoLight : logoDark

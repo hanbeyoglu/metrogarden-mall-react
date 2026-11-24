@@ -11,7 +11,10 @@
     "closeMenu": "Menüyü kapat",
     "openSearch": "Aramayı aç",
     "search": "Ara",
-    "searchShortcut": "⌘K"
+    "searchShortcut": "⌘K",
+    "homeAriaLabel": "Metrogarden AVM — Ana Sayfa",
+    "mainMenu": "Ana menü",
+    "mallHours": "10:00 – 22:00"
   },
   "footer": {
     "explore": "Keşfet",
@@ -33,7 +36,8 @@
       "services": "Hizmetler",
       "about": "Hakkımızda",
       "contact": "İletişim"
-    }
+    },
+    "ariaLabel": "Site alt bilgisi"
   },
   "lang": {
     "tr": "Türkçe",
@@ -97,7 +101,21 @@
     "validFrom": "Başlangıç",
     "terms": "Koşullar ve Kısıtlamalar",
     "updated": "Son Güncelleme",
-    "skipToContent": "Ana içeriğe geç"
+    "skipToContent": "Ana içeriğe geç",
+    "breadcrumb": "Sayfa konumu",
+    "contentLoadError": "İçerik yüklenirken bir hata oluştu.",
+    "retry": "Tekrar Dene",
+    "openImage": "Görseli büyüt",
+    "closeWithEscape": "Kapat (Esc)",
+    "previousImage": "Önceki görsel",
+    "nextImage": "Sonraki görsel",
+    "loadingPage": "Sayfa yükleniyor",
+    "description": "Açıklama",
+    "status": "Durum",
+    "validity": "Geçerlilik",
+    "lastDay": "Son gün",
+    "imageNumber": "Görsel {{number}}",
+    "workingHours": "Çalışma Saatleri"
   },
   "sort": {
     "az": "A → Z",
@@ -197,7 +215,12 @@
       "eventsCta": "Tüm Etkinlikleri Gör",
       "cinemaTitle": "Sinema",
       "cinemaSubtitle": "Vizyondaki filmler.",
-      "cinemaCta": "Sinemaya Git"
+      "cinemaCta": "Sinemaya Git",
+      "featuredContent": "Öne çıkan içerikler",
+      "campaignsEyebrow": "Fırsatlar",
+      "eventsEyebrow": "Takvim",
+      "campaignValidUntil": "{{date}} tarihine kadar",
+      "storesHeadline": "Mağazalarımızı Keşfedin"
     },
     "stores": {
       "heroTitle": "Mağazalar",
@@ -216,8 +239,14 @@
       "gallery": "Galeri",
       "relatedStores": "Benzer Mağazalar",
       "detail": {
-        "breadcrumb": "Mağazalar"
-      }
+        "breadcrumb": "Mağazalar",
+        "aboutTitle": "{{name}} Metrogarden’da",
+        "infoTitle": "Mağaza Bilgileri",
+        "findStore": "Mağazayı Bul"
+      },
+      "listAriaLabel": "Mağaza listesi",
+      "sameCategory": "Aynı Kategoriden",
+      "galleryImage": "{{name}} galeri görseli {{number}}"
     },
     "campaigns": {
       "heroTitle": "Kampanyalar",
@@ -237,8 +266,17 @@
       "terms": "Koşullar ve Kısıtlamalar",
       "detail": {
         "breadcrumb": "Kampanyalar",
-        "by": "Mağaza"
-      }
+        "by": "Mağaza",
+        "eyebrow": "Kampanya Detayı",
+        "infoTitle": "Kampanya Bilgileri",
+        "discount": "İndirim / Fırsat",
+        "viewStore": "Mağazayı İncele"
+      },
+      "listAriaLabel": "Kampanya listesi",
+      "endingSoonStatus": "Yakında Bitiyor · Son 7 Gün",
+      "expiredStatus": "Bu Kampanyanın Süresi Dolmuştur",
+      "dateRange": "{{range}} arası",
+      "relatedEyebrow": "İlgili Fırsatlar"
     },
     "events": {
       "heroTitle": "Etkinlikler",
@@ -258,8 +296,16 @@
         "ticketFree": "Ücretsiz Giriş",
         "ticketPaid": "Ücretli",
         "shareEvent": "Etkinliği Paylaş",
-        "openMaps": "Google Maps'te Aç"
-      }
+        "openMaps": "Google Maps'te Aç",
+        "aboutEvent": "Etkinlik Hakkında",
+        "summary": "Etkinlik Özeti",
+        "shareOnTwitter": "Twitter’da paylaş",
+        "shareOnFacebook": "Facebook’ta paylaş",
+        "eventGallery": "{{title}} etkinlik görselleri",
+        "getTicket": "Bilet Al"
+      },
+      "listAriaLabel": "Etkinlik listesi",
+      "relatedEyebrow": "İlgili Etkinlikler"
     },
     "services": {
       "heroTitle": "Hizmetler",
@@ -309,18 +355,130 @@
       "director": "Yön:",
       "cast": "Oyuncular:",
       "releaseDate": "Vizyon:",
-      "language": "Dil:"
+      "language": "Dil:",
+      "brandEyebrow": "Metrogarden Sinema",
+      "dateSelector": "Gün seçici",
+      "today": "Bugün",
+      "watchTrailer": "Fragmanı izle",
+      "openTrailer": "{{title}} fragmanını aç",
+      "featured": "Öne Çıkan",
+      "comingSoonInCinema": "Yakında Vizyonda",
+      "noShowtimes": "Seans bilgisi yok",
+      "trailer": "Film fragmanı",
+      "closeTrailer": "Fragmanı kapat",
+      "trailerTitle": "{{title}} fragmanı",
+      "trailerUnavailableTitle": "Fragman hazırlanıyor",
+      "trailerUnsupported": "Bu fragman bağlantısı YouTube videosu olarak açılamıyor.",
+      "trailerMissing": "Bu film için henüz fragman eklenmemiş.",
+      "durationMinutes": "{{minutes}} dk",
+      "seeAllMovies": "Tüm Filmleri Gör"
     },
     "about": {
       "heroTitle": "Hakkımızda",
-      "heroSubtitle": "İstanbul'un kalbinde, 2010'dan beri.",
-      "intro": "Hikayemiz",
-      "timeline": "Tarihçemiz",
+      "heroSubtitle": "İstanbul’un kalbinde, alışverişin ötesinde bir deneyim.",
+      "intro": "Hikâyemiz",
+      "timeline": "Kilometre Taşları",
       "stats": "Rakamlarla Metrogarden",
       "values": "Değerlerimiz",
       "ctaTitle": "Bizimle İletişime Geçin",
       "ctaDesc": "Markalar, etkinlikler veya kurumsal iş birlikleri için bize ulaşın.",
-      "ctaButton": "İletişim Sayfası"
+      "ctaButton": "İletişime Geçin",
+      "metaDescription": "Metrogarden AVM’yi, hikâyemizi ve değerlerimizi keşfedin.",
+      "introLead": "2010’dan bu yana Kartal’da yaşamın merkezi olmaya devam ediyoruz.",
+      "introDescription": "Metrogarden AVM; mağazaları, etkinlikleri ve yeme içme seçenekleriyle ziyaretçilerine bir arada farklı deneyimler sunuyor.",
+      "storyTitle": "Bir Hayalin Gerçeğe Dönüşmesi",
+      "storyParagraph1": "2010 yılında kapılarını açan Metrogarden AVM, mağazaları ve modern mimarisiyle Kartal’da ziyaretçilerini ağırlamaya başladı. Projenin temelinde insanların buluştuğu, eğlendiği ve deneyim yaşadığı bir merkez oluşturma fikri vardı.",
+      "storyParagraph2": "Metrogarden, mağaza çeşitliliği, etkinlikleri ve yeme içme seçenekleriyle ziyaretçilerine alışverişin ötesinde bir deneyim sunmayı hedefliyor.",
+      "mallImageAlt": "Metrogarden AVM iç mekân",
+      "timelineTitle": "Yıllar İçinde Metrogarden",
+      "timelineDescription": "Metrogarden’ın gelişimindeki öne çıkan dönemler.",
+      "sustainability": "Sürdürülebilirlik",
+      "sustainabilityTitle": "Yarınlar İçin Bugün Hareket Ediyoruz",
+      "sustainabilityParagraph1": "Metrogarden’da enerji ve kaynak kullanımını daha verimli hale getirmeye yönelik çalışmalar yürütülmektedir.",
+      "sustainabilityParagraph2": "Atık yönetimi ve çevre bilincini destekleyen uygulamalarla sürdürülebilirlik yaklaşımımızı geliştirmeyi hedefliyoruz.",
+      "sustainabilityImageAlt": "Sürdürülebilirlik çalışmaları",
+      "valuesTitle": "Bizi Biz Yapan İlkeler",
+      "visitEyebrow": "Bizi Ziyaret Edin",
+      "visitTitle": "Sizi Aramızda Görmekten Mutluluk Duyarız",
+      "visitDescription": "Mağazalarımızı, etkinliklerimizi ve hizmetlerimizi keşfetmek için Metrogarden’a bekliyoruz.",
+      "timelineItems": [
+        {
+          "year": "2010",
+          "title": "Metrogarden AVM Açıldı",
+          "description": "Metrogarden, Kartal’da ziyaretçilerini ağırlamaya başladı.",
+          "highlight": false
+        },
+        {
+          "year": "2013",
+          "title": "Sinema ve Eğlence",
+          "description": "Sinema salonları ve eğlence alanlarıyla ziyaretçi deneyimi genişledi.",
+          "highlight": false
+        },
+        {
+          "year": "2016",
+          "title": "Yenileme Çalışmaları",
+          "description": "Ortak alanlar ve ziyaretçi alanları yenilendi.",
+          "highlight": false
+        },
+        {
+          "year": "2019",
+          "title": "Mağaza Çeşitliliği",
+          "description": "Yeni mağazalarla marka seçkisi genişledi.",
+          "highlight": true
+        },
+        {
+          "year": "2022",
+          "title": "Sürdürülebilirlik Çalışmaları",
+          "description": "Enerji verimliliği ve kaynak yönetimine yönelik çalışmalar öne çıktı.",
+          "highlight": false
+        },
+        {
+          "year": "2024",
+          "title": "Dijital Dönüşüm",
+          "description": "Dijital platformlarla mağaza, kampanya ve etkinlik bilgilerine erişim kolaylaştı.",
+          "highlight": false
+        }
+      ],
+      "statItems": [
+        {
+          "value": "240K",
+          "label": "Metrekare",
+          "sublabel": "Toplam kapalı alan"
+        },
+        {
+          "value": "220+",
+          "label": "Mağaza",
+          "sublabel": "Ulusal ve uluslararası marka"
+        },
+        {
+          "value": "10M+",
+          "label": "Yıllık Ziyaretçi",
+          "sublabel": "Ortalama yıllık trafik"
+        },
+        {
+          "value": "2010",
+          "label": "Açılış",
+          "sublabel": "Ziyaretçilerini ağırlamaya başladı"
+        }
+      ],
+      "valueItems": [
+        {
+          "title": "Ziyaretçi Odaklılık",
+          "description": "Ziyaretçi deneyimini dinleyerek ve geliştirerek daha iyi hale getirmeyi hedefliyoruz."
+        },
+        {
+          "title": "Sürdürülebilirlik",
+          "description": "Kaynakları verimli kullanmayı ve çevreye duyarlı uygulamaları destekliyoruz."
+        },
+        {
+          "title": "Yenilikçilik",
+          "description": "Dijital çözümler ve gelişen hizmetlerle alışveriş deneyimini iyileştiriyoruz."
+        },
+        {
+          "title": "Güven ve Şeffaflık",
+          "description": "Mağazalarımıza, çalışanlarımıza ve ziyaretçilerimize karşı adil ve açık olmayı önemsiyoruz."
+        }
+      ]
     },
     "contact": {
       "heroTitle": "İletişim",
@@ -332,14 +490,28 @@
       "address": "Adres",
       "phone": "Telefon",
       "email": "E-posta",
-      "quickLinks": "Hızlı Bağlantılar"
+      "quickLinks": "Hızlı Bağlantılar",
+      "metaDescription": "Metrogarden AVM ile iletişime geçin. Adres, telefon, e-posta ve çalışma saatleri.",
+      "formEyebrow": "Bize Yazın",
+      "infoEyebrow": "AVM Bilgileri",
+      "cityDistrict": "İstanbul — Kartal",
+      "ctaTitle": "İstanbul'un Kalbinde",
+      "ctaHighlight": "Sizi Bekliyoruz",
+      "storeStat": "Mağaza",
+      "floorStat": "Kat",
+      "parkingStat": "Araçlık Park",
+      "mapTitle": "Metrogarden AVM Konumu"
     },
     "legal": {
       "breadcrumb": "Yasal",
       "otherDocs": "Diğer Belgeler",
       "toc": "İçindekiler",
       "printLabel": "Yazdır",
-      "lastUpdated": "Son Güncelleme"
+      "lastUpdated": "Son Güncelleme",
+      "breadcrumbHome": "Ana Sayfa",
+      "documentsEyebrow": "Yasal Belgeler",
+      "englishUnavailableTitle": "Bu belge İngilizce olarak mevcut değil",
+      "englishUnavailableDesc": "Belgenin İngilizce sürümü henüz yayımlanmadı. Bu belge için Türkçe dilini seçin."
     },
     "notFound": {
       "eyebrow": "404 — Sayfa Bulunamadı",
@@ -433,5 +605,11 @@
       "rateLimit": "Çok fazla mesaj gönderdiniz. Lütfen daha sonra tekrar deneyin.",
       "sendFailed": "Mesajınız gönderilemedi. Lütfen tekrar deneyin."
     }
+  },
+  "dev": {
+    "cmsConfigMissing": "CMS API ayarları eksik; örnek içerik gösteriliyor.",
+    "cmsConnecting": "CMS API bağlantısı kuruluyor…",
+    "cmsConnectionFailed": "CMS API bağlantısı başarısız; örnek içerik gösteriliyor.",
+    "cmsConnected": "CMS API bağlı; canlı içerik alındı."
   }
 }

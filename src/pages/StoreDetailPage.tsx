@@ -102,10 +102,10 @@ export function StoreDetailPage() {
         {/* Breadcrumb */}
         <div className="absolute left-0 right-0 top-0 z-10 px-6 pt-[90px] lg:px-12 lg:pt-[100px]">
           <div className="mx-auto max-w-[1440px]">
-            <nav className="flex items-center gap-1.5 font-sans text-[11px] text-white/40" aria-label="Sayfa konumu">
-              <Link to={ROUTES.HOME} className="transition-colors hover:text-white/70">Ana Sayfa</Link>
+            <nav className="flex items-center gap-1.5 font-sans text-[11px] text-white/40" aria-label={t('common.breadcrumb')}>
+              <Link to={ROUTES.HOME} className="transition-colors hover:text-white/70">{t('pages.notFound.links.home')}</Link>
               <ChevronRight size={11} className="text-white/25" />
-              <Link to={ROUTES.STORES} className="transition-colors hover:text-white/70">Mağazalar</Link>
+              <Link to={ROUTES.STORES} className="transition-colors hover:text-white/70">{t('pages.stores.detail.breadcrumb')}</Link>
               <ChevronRight size={11} className="text-white/25" />
               <span className="text-white/65">{store.name}</span>
             </nav>
@@ -149,7 +149,7 @@ export function StoreDetailPage() {
                   className="mb-3 flex flex-wrap items-center gap-2"
                 >
                   {store.category && <span className={cn('px-2.5 py-1 font-sans text-[10px] font-semibold uppercase tracking-[0.1em]', badgeStyle)}>
-                    {formatCategory(store.category, store.category_label)}
+                    {t(`storeCategories.${store.category}`, { defaultValue: formatCategory(store.category, store.category_label) })}
                   </span>}
                   {store.floor && <span className="border border-white/20 bg-black/40 px-2.5 py-1 font-sans text-[10px] font-medium tracking-wide text-white/70 backdrop-blur-sm">
                     {formatFloor(store.floor, store.floor_label)}
@@ -183,7 +183,7 @@ export function StoreDetailPage() {
                 className="group mb-8 inline-flex items-center gap-2 font-sans text-[13px] text-graphite transition-colors hover:text-carbon"
               >
                 <ArrowLeft size={14} className="transition-transform duration-300 group-hover:-translate-x-1" />
-                Tüm Mağazalar
+                {t('common.backToStores')}
               </Link>
 
               {/* Description heading */}
@@ -196,11 +196,11 @@ export function StoreDetailPage() {
                 <div className="mb-4 flex items-center gap-3">
                   <span className="h-px w-8 bg-champagne" />
                   <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                    Hakkında
+                    {t('pages.stores.description')}
                   </span>
                 </div>
                 <h2 className="mb-6 font-display text-2xl font-light text-carbon lg:text-3xl">
-                  {store.name} Metrogarden'da
+                  {t('pages.stores.detail.aboutTitle', { name: store.name })}
                 </h2>
                 {store.description && (
                   <p className="font-sans text-[15px] leading-[1.85] text-graphite">
@@ -219,13 +219,13 @@ export function StoreDetailPage() {
             >
               <div className="border border-mist/60 bg-white p-6 lg:p-7">
                 <h3 className="mb-6 border-b border-mist/60 pb-5 font-display text-xl font-light text-carbon">
-                  Mağaza Bilgileri
+                  {t('pages.stores.detail.infoTitle')}
                 </h3>
 
                 <div className="space-y-5">
                   {/* Working Hours */}
                   {store.working_hours && (
-                    <InfoRow icon={<Clock size={14} />} label="Çalışma Saatleri">
+                    <InfoRow icon={<Clock size={14} />} label={t('pages.stores.workingHours')}>
                       {typeof store.working_hours === 'string' ? (
                         store.working_hours
                       ) : (
@@ -249,13 +249,13 @@ export function StoreDetailPage() {
                   )}
 
                   {/* Floor */}
-                  {store.floor && <InfoRow icon={<MapPin size={14} />} label="Konum">
+                  {store.floor && <InfoRow icon={<MapPin size={14} />} label={t('common.location')}>
                     {formatFloor(store.floor, store.floor_label)} — Metrogarden AVM
                   </InfoRow>}
 
                   {/* Phone */}
                   {store.phone && (
-                    <InfoRow icon={<Phone size={14} />} label="Telefon">
+                    <InfoRow icon={<Phone size={14} />} label={t('common.phone')}>
                       <a
                         href={`tel:${store.phone.replace(/\s/g, '')}`}
                         className="transition-colors hover:text-champagne"
@@ -267,7 +267,7 @@ export function StoreDetailPage() {
 
                   {/* Website */}
                   {store.website && (
-                    <InfoRow icon={<Globe size={14} />} label="Web Sitesi">
+                    <InfoRow icon={<Globe size={14} />} label={t('common.website')}>
                       <a
                         href={store.website}
                         target="_blank"
@@ -284,7 +284,7 @@ export function StoreDetailPage() {
                 {store.social_links && Object.values(store.social_links).some(Boolean) && (
                   <div className="mt-6 border-t border-mist/60 pt-6">
                     <p className="mb-3 font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-ash">
-                      Sosyal Medya
+                      {t('common.socialMedia')}
                     </p>
                     <div className="flex items-center gap-2.5">
                       {store.social_links.instagram && (
@@ -319,7 +319,7 @@ export function StoreDetailPage() {
                   className="mt-6 flex w-full items-center justify-center gap-2.5 bg-champagne py-3.5 font-sans text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-champagne-80"
                 >
                   <MapPin size={13} />
-                  Mağazayı Bul
+                  {t('pages.stores.detail.findStore')}
                 </a>
               </div>
             </motion.div>
@@ -341,11 +341,11 @@ export function StoreDetailPage() {
               <div className="mb-3 flex items-center gap-3">
                 <span className="h-px w-8 bg-champagne" />
                 <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                  Galeri
+                  {t('common.gallery')}
                 </span>
               </div>
               <h2 className="font-display text-2xl font-light text-carbon lg:text-3xl">
-                Mağaza Görselleri
+                {t('pages.stores.gallery')}
               </h2>
             </motion.div>
 

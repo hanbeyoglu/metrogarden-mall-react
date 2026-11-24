@@ -1,19 +1,22 @@
 import { Link } from 'react-router'
 import { ArrowRight, Clock } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { useCampaignContent } from '@/hooks/useCmsContent'
 import { ROUTES } from '@/lib/constants'
 import { trackAnalytics } from '@/lib/analytics'
 
-function formatEndDate(dateStr: string): string {
+function formatEndDate(dateStr: string, locale: string): string {
   const date = new Date(dateStr)
-  return date.toLocaleDateString('tr-TR', {
+  return date.toLocaleDateString(locale, {
     day: 'numeric',
     month: 'long',
   })
 }
 
 export function CampaignSection() {
+  const { t, i18n } = useTranslation()
+  const locale = (i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR'
   const { featuredCampaigns: campaigns } = useCampaignContent()
   return (
     <section className="bg-fog py-24 lg:py-32" aria-labelledby="campaigns-heading">
@@ -30,7 +33,7 @@ export function CampaignSection() {
             >
               <span className="h-px w-8 bg-champagne" />
               <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                Fırsatlar
+                {t('pages.home.campaignsEyebrow')}
               </span>
             </motion.div>
             <motion.h2
@@ -41,7 +44,7 @@ export function CampaignSection() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="font-display text-4xl font-light leading-[1.05] text-carbon lg:text-5xl"
             >
-              Kampanyalar
+              {t('pages.home.campaignsTitle')}
             </motion.h2>
           </div>
 
@@ -56,7 +59,7 @@ export function CampaignSection() {
               className="group hidden items-center gap-2 font-sans text-[13px] font-medium text-graphite transition-all duration-300 hover:text-carbon md:flex"
             >
               <span className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-carbon after:transition-all after:duration-300 group-hover:after:w-full">
-                Tüm Kampanyalar
+                {t('common.seeAllCampaigns')}
               </span>
               <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
@@ -117,7 +120,7 @@ export function CampaignSection() {
                   {campaign.end_date && (
                     <div className="flex items-center gap-2 font-sans text-xs text-ash">
                       <Clock size={12} className="shrink-0" />
-                      <span>{formatEndDate(campaign.end_date)} tarihine kadar</span>
+                      <span>{t('pages.home.campaignValidUntil', { date: formatEndDate(campaign.end_date, locale) })}</span>
                     </div>
                   )}
                 </div>
@@ -141,7 +144,7 @@ export function CampaignSection() {
             to={ROUTES.CAMPAIGNS}
             className="group inline-flex items-center gap-2.5 border border-carbon px-7 py-3.5 font-sans text-[13px] font-medium uppercase tracking-[0.08em] text-carbon transition-all duration-300 hover:bg-carbon hover:text-ivory"
           >
-            Tüm Kampanyalar
+            {t('common.seeAllCampaigns')}
             <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>

@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { ArrowRight } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { useStoreContent } from '@/hooks/useCmsContent'
 import { ROUTES } from '@/lib/constants'
 import { cn } from '@/lib/cn'
@@ -20,6 +21,7 @@ const CATEGORY_STYLES: Record<string, { bg: string; text: string; initial: strin
 }
 
 export function FeaturedStores() {
+  const { t } = useTranslation()
   const { featuredStores } = useStoreContent()
   return (
     <section className="bg-ivory py-24 lg:py-32" aria-labelledby="stores-heading">
@@ -36,7 +38,7 @@ export function FeaturedStores() {
             >
               <span className="h-px w-8 bg-champagne" />
               <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                Öne Çıkan Mağazalar
+                {t('pages.home.storesTitle')}
               </span>
             </motion.div>
             <motion.h2
@@ -47,7 +49,7 @@ export function FeaturedStores() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="font-display text-4xl font-light leading-[1.05] text-carbon lg:text-5xl"
             >
-              180 Dünya Markası
+              {t('pages.home.storesHeadline')}
             </motion.h2>
           </div>
 
@@ -62,7 +64,7 @@ export function FeaturedStores() {
               className="group hidden items-center gap-2 font-sans text-[13px] font-medium text-graphite transition-all duration-300 hover:text-carbon md:flex"
             >
               <span className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-carbon after:transition-all after:duration-300 group-hover:after:w-full">
-                Tüm Mağazaları Gör
+                {t('common.seeAllStores')}
               </span>
               <ArrowRight
                 size={14}
@@ -118,7 +120,7 @@ export function FeaturedStores() {
                         style.text,
                       )}
                     >
-                      {formatCategory(store.category, store.category_label)}
+                      {t(`storeCategories.${store.category}`, { defaultValue: formatCategory(store.category, store.category_label) })}
                     </span>
                   </div>
 
@@ -142,7 +144,7 @@ export function FeaturedStores() {
             to={ROUTES.STORES}
             className="group inline-flex items-center gap-2.5 border border-carbon px-7 py-3.5 font-sans text-[13px] font-medium uppercase tracking-[0.08em] text-carbon transition-all duration-300 hover:bg-carbon hover:text-ivory"
           >
-            Tüm Mağazaları Gör
+            {t('common.seeAllStores')}
             <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>

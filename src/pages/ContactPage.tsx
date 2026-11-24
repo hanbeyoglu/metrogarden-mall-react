@@ -1,6 +1,7 @@
 import { MapPin, Phone, Mail, Clock, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { useMeta } from '@/hooks'
 import { ROUTES } from '@/lib/constants'
 import { PageHero } from '@/components/shared/PageHero'
@@ -12,25 +13,26 @@ const HERO_IMAGE =
   'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&h=900&fit=crop&q=85'
 
 export function ContactPage() {
+  const { t } = useTranslation()
   const mall = useMallContent()
   const contactInfo = [
-    { icon: MapPin, label: 'Adres', lines: [mall.address] },
-    { icon: Phone, label: 'Telefon', lines: [mall.phone], href: `tel:${mall.phone.replace(/\s/g, '')}` },
-    { icon: Mail, label: 'E-posta', lines: [mall.email], href: `mailto:${mall.email}` },
-    { icon: Clock, label: 'Çalışma Saatleri', lines: [mall.working_hours?.schedule ?? ''] },
+    { icon: MapPin, label: t('pages.contact.address'), lines: [mall.address] },
+    { icon: Phone, label: t('pages.contact.phone'), lines: [mall.phone], href: `tel:${mall.phone.replace(/\s/g, '')}` },
+    { icon: Mail, label: t('pages.contact.email'), lines: [mall.email], href: `mailto:${mall.email}` },
+    { icon: Clock, label: t('pages.contact.workingHours'), lines: [mall.working_hours?.schedule ?? ''] },
   ]
   useMeta({
-    title: 'İletişim',
-    description: 'Metrogarden AVM ile iletişime geçin. Adres, telefon, e-posta ve çalışma saatleri.',
+    title: t('pages.contact.heroTitle'),
+    description: t('pages.contact.metaDescription'),
   })
 
   return (
     <>
       <PageHero
-        title="İletişim"
-        subtitle="Sorularınız, önerileriniz veya mağaza başvurularınız için buradayız."
+        title={t('pages.contact.heroTitle')}
+        subtitle={t('pages.contact.heroSubtitle')}
         image={HERO_IMAGE}
-        breadcrumbs={[{ label: 'Ana Sayfa', href: '/' }, { label: 'İletişim' }]}
+        breadcrumbs={[{ label: t('pages.notFound.links.home'), href: '/' }, { label: t('pages.contact.heroTitle') }]}
         height="sm"
       />
 
@@ -49,14 +51,14 @@ export function ContactPage() {
                 <div className="mb-3 flex items-center gap-3">
                   <span className="h-px w-8 bg-champagne" />
                   <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-champagne">
-                    Bize Yazın
+                    {t('pages.contact.formEyebrow')}
                   </span>
                 </div>
                 <h2 className="mb-3 font-display text-3xl font-light text-carbon lg:text-4xl">
-                  Mesaj Gönderin
+                  {t('pages.contact.formTitle')}
                 </h2>
                 <p className="font-sans text-[14px] leading-relaxed text-graphite">
-                  Aşağıdaki formu doldurarak bize ulaşabilirsiniz. Genellikle 1–2 iş günü içinde yanıt veriyoruz.
+                  {t('pages.contact.formSubtitle')}
                 </p>
               </div>
 
@@ -77,11 +79,11 @@ export function ContactPage() {
                   <div className="mb-3 flex items-center gap-3">
                     <span className="h-px w-8 bg-champagne" />
                     <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-champagne">
-                      AVM Bilgileri
+                      {t('pages.contact.infoEyebrow')}
                     </span>
                   </div>
                   <h2 className="font-display text-3xl font-light text-carbon lg:text-4xl">
-                    Bizi Bulun
+                    {t('pages.contact.infoTitle')}
                   </h2>
                 </div>
 
@@ -123,7 +125,7 @@ export function ContactPage() {
               {/* Additional info */}
               <div className="border-t border-mist pt-6">
                 <p className="mb-3 font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-ash">
-                  Hızlı Bağlantılar
+                  {t('pages.contact.quickLinks')}
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
@@ -131,21 +133,21 @@ export function ContactPage() {
                     className="group flex items-center gap-1.5 font-sans text-[12px] text-graphite transition-colors hover:text-champagne"
                   >
                     <ChevronRight size={12} />
-                    KVKK Aydınlatma Metni
+                    {t('footer.links.kvkk')}
                   </Link>
                   <Link
                     to={ROUTES.ABOUT}
                     className="group flex items-center gap-1.5 font-sans text-[12px] text-graphite transition-colors hover:text-champagne"
                   >
                     <ChevronRight size={12} />
-                    Hakkımızda
+                    {t('nav.about')}
                   </Link>
                   <Link
                     to={ROUTES.STORES}
                     className="group flex items-center gap-1.5 font-sans text-[12px] text-graphite transition-colors hover:text-champagne"
                   >
                     <ChevronRight size={12} />
-                    Mağazalar
+                    {t('nav.stores')}
                   </Link>
                 </div>
               </div>

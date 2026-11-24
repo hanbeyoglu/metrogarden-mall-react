@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 
 interface StoreGalleryProps {
   images: string[]
@@ -9,6 +10,7 @@ interface StoreGalleryProps {
 }
 
 export function StoreGallery({ images, storeName }: StoreGalleryProps) {
+  const { t } = useTranslation()
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
   const openLightbox = useCallback((i: number) => setLightboxIndex(i), [])
@@ -61,7 +63,7 @@ export function StoreGallery({ images, storeName }: StoreGalleryProps) {
             key={i}
             onClick={() => openLightbox(i)}
             className="group relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-champagne"
-            aria-label={`${storeName} — galeri görseli ${i + 1}`}
+            aria-label={t('pages.stores.galleryImage', { name: storeName, number: i + 1 })}
             style={{ aspectRatio: images.length <= 2 ? '16/10' : '1/1' }}
           >
             <img
@@ -94,7 +96,7 @@ export function StoreGallery({ images, storeName }: StoreGalleryProps) {
               onClick={closeLightbox}
               role="dialog"
               aria-modal
-              aria-label="Görsel büyütme"
+              aria-label={t('common.openImage')}
             >
               {/* Counter */}
               <div className="absolute top-5 left-1/2 -translate-x-1/2 font-sans text-xs tabular-nums text-white/40">
@@ -105,7 +107,7 @@ export function StoreGallery({ images, storeName }: StoreGalleryProps) {
               <button
                 onClick={closeLightbox}
                 className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center text-white/60 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-champagne"
-                aria-label="Kapat (Esc)"
+                aria-label={t('common.closeWithEscape')}
               >
                 <X size={20} />
               </button>
@@ -131,7 +133,7 @@ export function StoreGallery({ images, storeName }: StoreGalleryProps) {
                 <button
                   onClick={(e) => { e.stopPropagation(); prev() }}
                   className="absolute left-4 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center border border-white/20 bg-black/50 text-white/70 backdrop-blur-sm transition-all hover:border-white/50 hover:text-white focus-visible:outline-none"
-                  aria-label="Önceki görsel"
+                  aria-label={t('common.previousImage')}
                 >
                   <ChevronLeft size={20} />
                 </button>
@@ -142,7 +144,7 @@ export function StoreGallery({ images, storeName }: StoreGalleryProps) {
                 <button
                   onClick={(e) => { e.stopPropagation(); next() }}
                   className="absolute right-4 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center border border-white/20 bg-black/50 text-white/70 backdrop-blur-sm transition-all hover:border-white/50 hover:text-white focus-visible:outline-none"
-                  aria-label="Sonraki görsel"
+                  aria-label={t('common.nextImage')}
                 >
                   <ChevronRight size={20} />
                 </button>
@@ -158,7 +160,7 @@ export function StoreGallery({ images, storeName }: StoreGalleryProps) {
                       className={`h-[3px] transition-all duration-300 ${
                         i === lightboxIndex ? 'w-8 bg-white' : 'w-4 bg-white/30 hover:bg-white/60'
                       }`}
-                      aria-label={`Görsel ${i + 1}`}
+                      aria-label={t('common.imageNumber', { number: i + 1 })}
                     />
                   ))}
                 </div>

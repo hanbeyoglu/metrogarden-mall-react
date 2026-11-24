@@ -115,7 +115,7 @@ export function StoresPage() {
         totalCount={activeStores.length}
       />
 
-      <section className="bg-ivory py-12 lg:py-16" aria-label="Mağaza listesi">
+      <section className="bg-ivory py-12 lg:py-16" aria-label={t('pages.stores.listAriaLabel')}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
           {filteredStores.length > 0 ? (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-5 xl:gap-6">

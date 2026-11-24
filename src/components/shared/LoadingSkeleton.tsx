@@ -1,6 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/cn'
 import { Logo } from '@/components/shared/Logo'
+import i18n from '@/i18n/i18n'
 
 
 // ── Primitive skeleton blocks ────────────────────────────────────────────────
@@ -126,7 +127,7 @@ export function PageLoader() {
   return (
     <div
       role="status"
-      aria-label="Sayfa yükleniyor"
+      aria-label={i18n.t('common.loadingPage')}
       className="flex min-h-dvh items-center justify-center bg-ivory"
     >
       <div className="flex flex-col items-center gap-6">

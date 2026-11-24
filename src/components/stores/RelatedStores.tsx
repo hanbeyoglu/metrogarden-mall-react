@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { ArrowRight } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import type { Store } from '@/types'
 import { ROUTES } from '@/lib/constants'
 import { cn } from '@/lib/cn'
@@ -24,6 +25,7 @@ interface RelatedStoresProps {
 }
 
 export function RelatedStores({ stores }: RelatedStoresProps) {
+  const { t } = useTranslation()
   if (stores.length === 0) return null
 
   return (
@@ -41,7 +43,7 @@ export function RelatedStores({ stores }: RelatedStoresProps) {
             >
               <span className="h-px w-8 bg-champagne" />
               <span className="font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-champagne">
-                Benzer Mağazalar
+                {t('pages.stores.relatedStores')}
               </span>
             </motion.div>
             <motion.h2
@@ -52,7 +54,7 @@ export function RelatedStores({ stores }: RelatedStoresProps) {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="font-display text-3xl font-light text-carbon lg:text-4xl"
             >
-              Aynı Kategoriden
+              {t('pages.stores.sameCategory')}
             </motion.h2>
           </div>
 
@@ -67,7 +69,7 @@ export function RelatedStores({ stores }: RelatedStoresProps) {
               className="group hidden items-center gap-2 font-sans text-[13px] font-medium text-graphite transition-all duration-300 hover:text-carbon md:flex"
             >
               <span className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-carbon after:transition-all after:duration-300 group-hover:after:w-full">
-                Tüm Mağazalar
+                {t('common.seeAllStores')}
               </span>
               <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
@@ -122,7 +124,7 @@ export function RelatedStores({ stores }: RelatedStoresProps) {
                   {/* Info */}
                   <div className="p-4">
                     {store.category && <p className="mb-1 font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-champagne">
-                      {formatCategory(store.category, store.category_label)}
+                      {t(`storeCategories.${store.category}`, { defaultValue: formatCategory(store.category, store.category_label) })}
                     </p>}
                     <h3 className="font-display text-lg font-light text-carbon transition-colors duration-300 group-hover:text-champagne">
                       {store.name}

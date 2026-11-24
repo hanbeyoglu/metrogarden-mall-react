@@ -76,7 +76,7 @@ export function EventsPage() {
         totalCount={allEvents.length}
       />
 
-      <section className="bg-ivory py-10 lg:py-14" aria-label="Etkinlik listesi">
+      <section className="bg-ivory py-10 lg:py-14" aria-label={t('pages.events.listAriaLabel')}>
         <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
           {filteredEvents.length > 0 ? (
             <>

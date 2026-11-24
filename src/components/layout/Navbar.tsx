@@ -58,13 +58,13 @@ export function Navbar() {
             <Link
               to={ROUTES.HOME}
               className="flex items-center focus-visible:outline-none"
-              aria-label="Metrogarden AVM — Ana Sayfa"
+              aria-label={t('nav.homeAriaLabel')}
             >
               <Logo variant="adaptive" scrolled={scrolled} size="md" />
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden items-center gap-9 lg:flex" aria-label="Ana menü">
+            <nav className="hidden items-center gap-9 lg:flex" aria-label={t('nav.mainMenu')}>
               {NAV_LINKS.map((link) => {
                 const isActive = location.pathname === link.href
                 return (

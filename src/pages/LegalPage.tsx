@@ -8,6 +8,7 @@ import { LEGAL_DOCUMENTS } from '@/data/legal'
 import { cn } from '@/lib/cn'
 import { useCmsPageContent } from '@/hooks/useCmsContent'
 import { CmsPageContent } from '@/components/shared/CmsPageContent'
+import { useTranslation } from 'react-i18next'
 
 const SLUG_MAP: Record<string, string> = {
   kvkk: 'kvkk',
@@ -16,6 +17,7 @@ const SLUG_MAP: Record<string, string> = {
 }
 
 export function LegalPage() {
+  const { t, i18n } = useTranslation()
   const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
   const [activeSection, setActiveSection] = useState<string>('')
@@ -59,7 +61,7 @@ export function LegalPage() {
             <h1 className="font-display text-4xl font-light text-carbon lg:text-5xl">{cmsPage.title}</h1>
             {cmsPage.last_updated && (
               <p className="mt-4 font-sans text-[12px] text-ash">
-                Son güncelleme: {new Date(cmsPage.last_updated).toLocaleDateString('tr-TR')}
+                {t('pages.legal.lastUpdated')}: {new Date(cmsPage.last_updated).toLocaleDateString((i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR')}
               </p>
             )}
           </div>
@@ -69,12 +71,26 @@ export function LegalPage() {
     )
   }
 
+  if ((i18n.resolvedLanguage ?? i18n.language).startsWith('en') && doc) {
+    return (
+      <div className="min-h-[60vh] bg-ivory px-6 py-24 text-center">
+        <div className="mx-auto max-w-xl">
+          <p className="mb-3 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-champagne">
+            {t('pages.legal.breadcrumb')}
+          </p>
+          <h1 className="mb-4 font-display text-3xl font-light text-carbon">{t('pages.legal.englishUnavailableTitle')}</h1>
+          <p className="font-sans text-[14px] leading-relaxed text-graphite">{t('pages.legal.englishUnavailableDesc')}</p>
+        </div>
+      </div>
+    )
+  }
+
   if (!doc) return null
 
   const otherDocs = [
-    { title: 'KVKK Aydınlatma Metni', href: ROUTES.KVKK, active: docKey === 'kvkk' },
-    { title: 'Gizlilik Politikası', href: ROUTES.PRIVACY, active: docKey === 'privacy' },
-    { title: 'Çerez Politikası', href: ROUTES.COOKIE_POLICY, active: docKey === 'cookie-policy' },
+    { title: t('footer.links.kvkk'), href: ROUTES.KVKK, active: docKey === 'kvkk' },
+    { title: t('footer.links.privacy'), href: ROUTES.PRIVACY, active: docKey === 'privacy' },
+    { title: t('footer.links.cookie'), href: ROUTES.COOKIE_POLICY, active: docKey === 'cookie-policy' },
   ]
 
   return (
@@ -86,9 +102,9 @@ export function LegalPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="mb-6 flex items-center gap-1.5 font-sans text-[11px] text-ash"
-            aria-label="Sayfa konumu"
+            aria-label={t('common.breadcrumb')}
           >
-            <a href={ROUTES.HOME} className="hover:text-carbon">Ana Sayfa</a>
+            <a href={ROUTES.HOME} className="hover:text-carbon">{t('pages.legal.breadcrumbHome')}</a>
             <ChevronRight size={11} />
             <span className="text-carbon">{doc.title}</span>
           </motion.nav>
@@ -101,7 +117,7 @@ export function LegalPage() {
             <div className="mb-4 flex items-center gap-3">
               <span className="h-px w-8 bg-champagne" />
               <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-champagne">
-                Yasal Belgeler
+                {t('pages.legal.documentsEyebrow')}
               </span>
             </div>
             <h1 className="mb-4 font-display text-4xl font-light text-carbon lg:text-5xl">
@@ -110,14 +126,14 @@ export function LegalPage() {
             <div className="flex flex-wrap items-center gap-4">
               <span className="flex items-center gap-1.5 font-sans text-[12px] text-ash">
                 <Calendar size={12} />
-                Son güncelleme: {doc.lastUpdated}
+                {t('pages.legal.lastUpdated')}: {doc.lastUpdated}
               </span>
               <button
                 onClick={() => window.print()}
                 className="flex items-center gap-1.5 font-sans text-[12px] text-graphite transition-colors hover:text-carbon"
               >
                 <Printer size={12} />
-                Yazdır
+                {t('pages.legal.printLabel')}
               </button>
             </div>
           </motion.div>
@@ -134,9 +150,9 @@ export function LegalPage() {
               {/* Table of Contents */}
               <div>
                 <p className="mb-4 font-sans text-[10px] font-semibold uppercase tracking-[0.18em] text-ash">
-                  İçindekiler
+                  {t('pages.legal.toc')}
                 </p>
-                <nav aria-label="Sayfa içeriği" className="space-y-1">
+                <nav aria-label={t('pages.legal.toc')} className="space-y-1">
                   {doc.sections.map((section) => (
                     <a
                       key={section.id}
@@ -161,7 +177,7 @@ export function LegalPage() {
               {/* Other legal docs */}
               <div>
                 <p className="mb-4 font-sans text-[10px] font-semibold uppercase tracking-[0.18em] text-ash">
-                  Diğer Belgeler
+                  {t('pages.legal.otherDocs')}
                 </p>
                 <div className="space-y-2">
                   {otherDocs.map((d) => (
@@ -232,7 +248,7 @@ export function LegalPage() {
             {/* Mobile: other docs */}
             <div className="mt-14 border-t border-mist pt-8 lg:hidden">
               <p className="mb-4 font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-ash">
-                Diğer Belgeler
+                {t('pages.legal.otherDocs')}
               </p>
               <div className="flex flex-wrap gap-4">
                 {otherDocs.filter((d) => !d.active).map((d) => (

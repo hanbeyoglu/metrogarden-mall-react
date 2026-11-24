@@ -16,19 +16,20 @@ interface CampaignCardProps {
 
 const STATUS_BADGE = {
   'ending-soon': {
-    label: 'Son 7 Gün',
+    label: 'status.lastDays',
     className: 'bg-[#d97706] text-white',
     icon: <AlertTriangle size={10} className="shrink-0" />,
   },
   expired: {
-    label: 'Süresi Doldu',
+    label: 'status.expiredBadge',
     className: 'bg-[#4a4a4a] text-white/70',
     icon: null,
   },
 } as const
 
 export function CampaignCard({ campaign, index = 0 }: CampaignCardProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const locale = (i18n.resolvedLanguage ?? i18n.language).startsWith('en') ? 'en-US' : 'tr-TR'
   const isExpired = campaign.status === 'expired'
   const isEndingSoon = campaign.status === 'ending-soon'
   const statusBadge = isExpired
@@ -89,7 +90,7 @@ export function CampaignCard({ campaign, index = 0 }: CampaignCardProps) {
                 statusBadge.className,
               )}>
                 {statusBadge.icon}
-                {statusBadge.label}
+                {t(statusBadge.label)}
               </span>
             </div>
           )}
@@ -125,8 +126,8 @@ export function CampaignCard({ campaign, index = 0 }: CampaignCardProps) {
                 <Clock size={11} className="shrink-0" />
                 <span>
                   {isExpired
-                    ? 'Süre doldu'
-                    : `${formatDateRange(campaign.start_date, campaign.end_date)} arası`}
+                    ? t('status.expired')
+                    : t('pages.campaigns.dateRange', { range: formatDateRange(campaign.start_date, campaign.end_date, locale) })}
                 </span>
               </div>
             ) : <span />}
@@ -135,7 +136,7 @@ export function CampaignCard({ campaign, index = 0 }: CampaignCardProps) {
               'flex shrink-0 items-center gap-1.5 font-sans text-[11px] font-medium uppercase tracking-[0.08em] transition-colors duration-300',
               isExpired ? 'text-ash' : 'text-champagne group-hover:text-carbon',
             )}>
-              Detayları Gör
+              {t('common.viewDetails')}
               <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-1" />
             </span>
           </div>
