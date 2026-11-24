@@ -368,7 +368,7 @@
     }
   },
   "search": {
-    "placeholder": "Ara… mağaza, kampanya, etkinlik, film",
+    "placeholder": "Ara… mağaza, kampanya, etkinlik, film, hizmet",
     "closeLabel": "Kapat",
     "clearLabel": "Arama temizle",
     "escHint": "Esc",
@@ -377,7 +377,8 @@
     "closeHint": "Kapat",
     "resultsCount": "{{count}} sonuç",
     "recentSearches": "Son Aramalar",
-    "popularSearches": "Popüler Aramalar",
+    "suggestedSearches": "Öne Çıkan İçerikler",
+    "noSuggestions": "Şu an önerilecek içerik yok.",
     "clearHistory": "Temizle",
     "noResults": "Sonuç bulunamadı",
     "noResultsDesc": "için sonuç yok.",
@@ -387,6 +388,7 @@
       "campaigns": "Kampanyalar",
       "events": "Etkinlikler",
       "movies": "Sinema",
+      "services": "Hizmetler",
       "pages": "Sayfalar"
     }
   },

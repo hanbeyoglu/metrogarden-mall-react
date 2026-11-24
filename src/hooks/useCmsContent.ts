@@ -122,7 +122,7 @@ export function useStoreContent() {
     ...LIVE_CONTENT_QUERY_OPTIONS, retry: false,
   })
   const home = useCmsHomeContent()
-  const stores = query.data ?? allStores
+  const stores = query.data ?? (apiConfigured ? [] : allStores)
   const featuredStores = home?.featuredStores.map(mapStore) ?? stores.filter((store) => store.is_active && store.is_featured)
   return { stores, featuredStores }
 }

@@ -1,25 +1,24 @@
-/* eslint-disable no-console */
-/**
- * Lightweight analytics service for search events.
- * Console-only for now — will be replaced with CMS analytics later.
- */
+import { trackAnalytics } from '@/lib/analytics'
+import type { SearchResult } from '@/lib/searchUtils'
 
-export function trackSearchOpen(): void {
-  console.log('[Search] Opened')
-}
-
-export function trackSearchClose(): void {
-  console.log('[Search] Closed')
-}
-
-export function trackSearch(query: string): void {
-  console.log(`[Search] Query: "${query}"`)
-}
-
-export function trackSearchClick(type: string, id: string, title: string): void {
-  console.log(`[Search] Click — type:${type} id:${id} title:"${title}"`)
-}
-
-export function trackSearchNoResults(query: string): void {
-  console.log(`[Search] No results for: "${query}"`)
+/** Track the selected result without sending the visitor's query or result text. */
+export function trackSearchClick(result: SearchResult): void {
+  switch (result.type) {
+    case 'store':
+      void trackAnalytics({ entityType: 'STORE', eventType: 'STORE_CLICK', entityId: result.analyticsId, path: result.href, source: 'search' })
+      break
+    case 'campaign':
+      void trackAnalytics({ entityType: 'CAMPAIGN', eventType: 'CAMPAIGN_CLICK', entityId: result.analyticsId, path: result.href, source: 'search' })
+      break
+    case 'event':
+      void trackAnalytics({ entityType: 'EVENT', eventType: 'EVENT_CLICK', entityId: result.analyticsId, path: result.href, source: 'search' })
+      break
+    case 'movie':
+      void trackAnalytics({ entityType: 'MOVIE', eventType: 'MOVIE_CLICK', entityId: result.analyticsId, path: result.href, source: 'search' })
+      break
+    case 'page':
+    case 'service':
+      void trackAnalytics({ entityType: 'CUSTOM', eventType: 'LINK_CLICK', path: result.href, source: 'search' })
+      break
+  }
 }

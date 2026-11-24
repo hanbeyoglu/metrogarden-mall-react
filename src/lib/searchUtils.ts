@@ -1,6 +1,5 @@
-import { allStores, allCampaigns, allEvents, allMovies } from '@/data'
 import { ROUTES, EVENT_CATEGORIES } from '@/lib/constants'
-import type { Store, Campaign, Event, Movie } from '@/types'
+import type { Store, Campaign, Event, MallService, Movie } from '@/types'
 import { formatCategory, formatFloor } from '@/lib/format'
 
 /* ── Turkish character normalization ────────────────────── */
@@ -22,11 +21,12 @@ export function matches(haystack: string | undefined | null, needle: string): bo
 }
 
 /* ── Result types ─────────────────────────────────────── */
-export type SearchResultType = 'store' | 'campaign' | 'event' | 'movie' | 'page'
+export type SearchResultType = 'store' | 'campaign' | 'event' | 'movie' | 'service' | 'page'
 
 export interface SearchResult {
   type: SearchResultType
   id: string
+  analyticsId?: string
   title: string
   subtitle?: string
   categoryLabel?: string
@@ -39,6 +39,7 @@ export interface GroupedResults {
   campaigns: SearchResult[]
   events: SearchResult[]
   movies: SearchResult[]
+  services: SearchResult[]
   pages: SearchResult[]
 }
 
@@ -71,15 +72,10 @@ const MAX_PER_TYPE = 5
 /* ── Main search function ────────────────────────────── */
 export function searchAll(
   query: string,
-  content: { stores: Store[]; campaigns: Campaign[]; events: Event[]; movies: Movie[] } = {
-    stores: allStores,
-    campaigns: allCampaigns,
-    events: allEvents,
-    movies: allMovies,
-  },
+  content: { stores: Store[]; campaigns: Campaign[]; events: Event[]; movies: Movie[]; services: MallService[] },
 ): GroupedResults {
   const q = query.trim()
-  if (!q) return { stores: [], campaigns: [], events: [], movies: [], pages: [] }
+  if (!q) return { stores: [], campaigns: [], events: [], movies: [], services: [], pages: [] }
 
   /* Stores */
   const stores: SearchResult[] = content.stores
@@ -92,6 +88,7 @@ export function searchAll(
     .map((s) => ({
       type: 'store',
       id: s.id,
+      analyticsId: s.analytics_id,
       title: s.name,
       subtitle: [s.category ? formatCategory(s.category, s.category_label) : '', s.floor ? formatFloor(s.floor, s.floor_label) : ''].filter(Boolean).join(' · '),
       thumbnail: s.cover_image,
@@ -110,6 +107,7 @@ export function searchAll(
     .map((c) => ({
       type: 'campaign',
       id: c.id,
+      analyticsId: c.analytics_id,
       title: c.title,
       subtitle: c.store?.name ?? undefined,
       categoryLabel: c.discount_label ?? undefined,
@@ -130,6 +128,7 @@ export function searchAll(
     .map((e) => ({
       type: 'event',
       id: e.id,
+      analyticsId: e.analytics_id,
       title: e.title,
       subtitle: e.location ?? undefined,
       categoryLabel: e.category ? EVENT_CATEGORIES[e.category] : undefined,
@@ -149,11 +148,34 @@ export function searchAll(
     .map((m) => ({
       type: 'movie',
       id: m.id,
+      analyticsId: m.analytics_id,
       title: m.title,
       subtitle: m.director ? `Yön: ${m.director}` : undefined,
       categoryLabel: m.genre?.[0] ?? undefined,
       thumbnail: m.poster,
       href: ROUTES.CINEMA,
+    }))
+
+  /* Services */
+  const services: SearchResult[] = content.services
+    .filter((service) =>
+      matches(service.name, q) ||
+      matches(service.description, q) ||
+      matches(service.category, q) ||
+      matches(service.floor, q) ||
+      matches(service.unit_no, q) ||
+      matches(service.location_label, q) ||
+      service.search_tags?.some((tag) => matches(tag, q)),
+    )
+    .slice(0, MAX_PER_TYPE)
+    .map((service) => ({
+      type: 'service',
+      id: service.id,
+      title: service.name,
+      subtitle: [service.location_label, service.floor].filter(Boolean).join(' · ') || undefined,
+      categoryLabel: service.category,
+      thumbnail: service.cover_image ?? service.icon,
+      href: ROUTES.SERVICES,
     }))
 
   /* Static Pages */
@@ -172,7 +194,7 @@ export function searchAll(
       href: p.href,
     }))
 
-  return { stores, campaigns, events, movies, pages }
+  return { stores, campaigns, events, movies, services, pages }
 }
 
 /* ── Recent searches (localStorage) ─────────────────── */
@@ -198,13 +220,3 @@ export function addRecentSearch(query: string): void {
 export function clearRecentSearches(): void {
   localStorage.removeItem(RECENT_KEY)
 }
-
-/* ── Popular searches (dummy) ────────────────────────── */
-export const POPULAR_SEARCHES = [
-  'Nike',
-  'Apple',
-  'Starbucks',
-  'Sinema',
-  'Zara',
-  'Çocuk Atölyesi',
-]

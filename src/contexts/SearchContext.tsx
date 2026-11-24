@@ -8,7 +8,6 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { trackSearchOpen, trackSearchClose } from '@/lib/searchAnalytics'
 
 interface SearchContextValue {
   isOpen: boolean
@@ -46,12 +45,10 @@ export function SearchProvider({ children }: SearchProviderProps) {
   const open = useCallback(() => {
     previousFocusRef.current = document.activeElement
     setIsOpen(true)
-    trackSearchOpen()
   }, [])
 
   const close = useCallback(() => {
     setIsOpen(false)
-    trackSearchClose()
     /* Restore focus after close animation */
     requestAnimationFrame(() => {
       if (previousFocusRef.current instanceof HTMLElement) {
@@ -63,7 +60,6 @@ export function SearchProvider({ children }: SearchProviderProps) {
   const toggle = useCallback(() => {
     setIsOpen((prev) => {
       if (prev) {
-        trackSearchClose()
         requestAnimationFrame(() => {
           if (previousFocusRef.current instanceof HTMLElement) {
             previousFocusRef.current.focus()
@@ -71,7 +67,6 @@ export function SearchProvider({ children }: SearchProviderProps) {
         })
       } else {
         previousFocusRef.current = document.activeElement
-        trackSearchOpen()
       }
       return !prev
     })
@@ -91,7 +86,6 @@ export function SearchProvider({ children }: SearchProviderProps) {
         e.preventDefault()
         previousFocusRef.current = document.activeElement
         setIsOpen(true)
-        trackSearchOpen()
       }
     }
     window.addEventListener('keydown', handler)

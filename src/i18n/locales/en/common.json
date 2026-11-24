@@ -368,7 +368,7 @@
     }
   },
   "search": {
-    "placeholder": "Search… stores, campaigns, events, movies",
+    "placeholder": "Search… stores, campaigns, events, movies, services",
     "closeLabel": "Close",
     "clearLabel": "Clear search",
     "escHint": "Esc",
@@ -377,7 +377,8 @@
     "closeHint": "Close",
     "resultsCount": "{{count}} results",
     "recentSearches": "Recent Searches",
-    "popularSearches": "Popular Searches",
+    "suggestedSearches": "Featured Content",
+    "noSuggestions": "No content to suggest right now.",
     "clearHistory": "Clear",
     "noResults": "No results found",
     "noResultsDesc": "No results for",
@@ -387,6 +388,7 @@
       "campaigns": "Campaigns",
       "events": "Events",
       "movies": "Cinema",
+      "services": "Services",
       "pages": "Pages"
     }
   },

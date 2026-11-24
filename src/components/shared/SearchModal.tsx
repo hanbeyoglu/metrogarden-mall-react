@@ -9,20 +9,19 @@ import {
 import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router'
 import {
-  Search, X, ArrowRight, Clock, TrendingUp,
+  Search, X, ArrowRight, Clock, Sparkles,
   ShoppingBag, Tag, Calendar, Film, FileText,
-  CornerDownLeft, ChevronUp, ChevronDown,
+  MapPin, CornerDownLeft, ChevronUp, ChevronDown,
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 import { useTranslation } from 'react-i18next'
 import { useSearch } from '@/contexts/SearchContext'
-import { useStoreContent, useCampaignContent, useEventContent, useMovieContent } from '@/hooks/useCmsContent'
+import { useStoreContent, useCampaignContent, useEventContent, useMovieContent, useServiceContent } from '@/hooks/useCmsContent'
 import {
   searchAll, getRecentSearches, addRecentSearch, clearRecentSearches,
-  POPULAR_SEARCHES,
   type SearchResult, type GroupedResults,
 } from '@/lib/searchUtils'
-import { trackSearch, trackSearchClick, trackSearchNoResults } from '@/lib/searchAnalytics'
+import { trackSearchClick } from '@/lib/searchAnalytics'
 import { cn } from '@/lib/cn'
 
 /* ── Type icon map ──────────────────────────────────── */
@@ -31,6 +30,7 @@ const TYPE_ICONS = {
   campaign: Tag,
   event: Calendar,
   movie: Film,
+  service: MapPin,
   page: FileText,
 } as const
 
@@ -171,6 +171,7 @@ export function SearchModal() {
   const { campaigns } = useCampaignContent()
   const { events } = useEventContent()
   const { movies } = useMovieContent()
+  const { services } = useServiceContent()
 
   const [query, setQuery] = useState('')
   const [debouncedQuery, setDebouncedQuery] = useState('')
@@ -187,6 +188,7 @@ export function SearchModal() {
     { key: 'campaigns', label: t('search.sections.campaigns') },
     { key: 'events', label: t('search.sections.events') },
     { key: 'movies', label: t('search.sections.movies') },
+    { key: 'services', label: t('search.sections.services') },
     { key: 'pages', label: t('search.sections.pages') },
   ]
 
@@ -218,7 +220,6 @@ export function SearchModal() {
     const timer = setTimeout(() => {
       setDebouncedQuery(query)
       setIsSearching(false)
-      trackSearch(query)
     }, 300)
     return () => clearTimeout(timer)
   }, [query])
@@ -226,8 +227,8 @@ export function SearchModal() {
   /* ── Compute results ──────────────────────────────── */
   const groupedResults = useMemo<GroupedResults | null>(() => {
     if (!debouncedQuery.trim()) return null
-    return searchAll(debouncedQuery, { stores, campaigns, events, movies })
-  }, [debouncedQuery, stores, campaigns, events, movies])
+    return searchAll(debouncedQuery, { stores, campaigns, events, movies, services })
+  }, [debouncedQuery, stores, campaigns, events, movies, services])
 
   const flatResults = useMemo<SearchResult[]>(() => {
     if (!groupedResults) return []
@@ -236,6 +237,7 @@ export function SearchModal() {
       ...groupedResults.campaigns,
       ...groupedResults.events,
       ...groupedResults.movies,
+      ...groupedResults.services,
       ...groupedResults.pages,
     ]
   }, [groupedResults])
@@ -243,12 +245,18 @@ export function SearchModal() {
   const totalResults = flatResults.length
   const hasQuery = debouncedQuery.trim().length > 0
 
-  /* Track no results */
-  useEffect(() => {
-    if (hasQuery && !isSearching && totalResults === 0) {
-      trackSearchNoResults(debouncedQuery)
-    }
-  }, [hasQuery, isSearching, totalResults, debouncedQuery])
+  const suggestedSearches = useMemo(() => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const candidates = [
+      ...stores.filter((store) => store.is_active).slice(0, 2).map((store) => store.name),
+      ...campaigns.filter((campaign) => campaign.is_active).slice(0, 1).map((campaign) => campaign.title),
+      ...events.filter((event) => new Date(event.end_date ?? event.date) >= today).slice(0, 1).map((event) => event.title),
+      ...movies.slice(0, 1).map((movie) => movie.title),
+      ...services.slice(0, 1).map((service) => service.name),
+    ]
+    return [...new Set(candidates.filter((value) => value.trim()))].slice(0, 6)
+  }, [stores, campaigns, events, movies, services])
 
   /* ── Scroll active item into view ─────────────────── */
   useEffect(() => {
@@ -261,7 +269,7 @@ export function SearchModal() {
   const selectResult = useCallback(
     (result: SearchResult) => {
       addRecentSearch(query || debouncedQuery)
-      trackSearchClick(result.type, result.id, result.title)
+      trackSearchClick(result)
       close()
       navigate(result.href)
     },
@@ -490,13 +498,13 @@ export function SearchModal() {
 
                   <div>
                     <div className="mb-3 flex items-center gap-2">
-                      <TrendingUp size={12} className="text-champagne" />
+                      <Sparkles size={12} className="text-champagne" />
                       <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.14em] text-ash">
-                        {t('search.popularSearches')}
+                        {t('search.suggestedSearches')}
                       </span>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {POPULAR_SEARCHES.map((term) => (
+                      {suggestedSearches.length > 0 ? suggestedSearches.map((term) => (
                         <button
                           key={term}
                           onClick={() => applyTerm(term)}
@@ -504,7 +512,9 @@ export function SearchModal() {
                         >
                           {term}
                         </button>
-                      ))}
+                      )) : (
+                        <p className="font-sans text-[12px] text-ash">{t('search.noSuggestions')}</p>
+                      )}
                     </div>
                   </div>
                 </div>
