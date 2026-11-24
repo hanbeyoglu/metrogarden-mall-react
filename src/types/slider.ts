@@ -1,5 +1,7 @@
 export interface Slider {
   id: string
+  /** CMS slider group ID; absent for local demo content. */
+  analytics_id?: string
   title: string
   subtitle?: string
   eyebrow?: string

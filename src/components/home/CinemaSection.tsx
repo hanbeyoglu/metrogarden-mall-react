@@ -6,6 +6,7 @@ import { useMovieContent } from '@/hooks/useCmsContent'
 import { ROUTES } from '@/lib/constants'
 import type { Movie } from '@/types'
 import { MovieTrailerModal } from '@/components/cinema/MovieTrailerModal'
+import { trackAnalytics } from '@/lib/analytics'
 
 export function CinemaSection() {
   const { currentMovies } = useMovieContent()
@@ -89,7 +90,10 @@ export function CinemaSection() {
                 {/* Poster */}
                 <button
                   type="button"
-                  onClick={() => setTrailerMovie(movie)}
+                  onClick={() => {
+                    void trackAnalytics({ entityType: 'MOVIE', eventType: 'MOVIE_CLICK', entityId: movie.analytics_id, path: '/', source: 'home-cinema' })
+                    setTrailerMovie(movie)
+                  }}
                   aria-label={`${movie.title} fragmanını aç`}
                   className="group/poster relative block aspect-poster w-full overflow-hidden text-left"
                 >
@@ -141,7 +145,10 @@ export function CinemaSection() {
                   {/* Title */}
                   <button
                     type="button"
-                    onClick={() => setTrailerMovie(movie)}
+                    onClick={() => {
+                      void trackAnalytics({ entityType: 'MOVIE', eventType: 'MOVIE_CLICK', entityId: movie.analytics_id, path: '/', source: 'home-cinema' })
+                      setTrailerMovie(movie)
+                    }}
                     className="mb-1 text-left font-display text-xl font-light leading-snug text-silver transition-colors hover:text-champagne focus-visible:text-champagne"
                   >
                     {movie.title}

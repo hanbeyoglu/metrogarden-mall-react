@@ -4,6 +4,7 @@ import type { Store } from '@/types'
 import { ROUTES } from '@/lib/constants'
 import { formatCategory, formatFloor } from '@/lib/format'
 import { cn } from '@/lib/cn'
+import { trackAnalytics } from '@/lib/analytics'
 
 const CATEGORY_INITIAL_BG: Record<string, string> = {
   fashion:             'bg-[#1a1514]',
@@ -47,7 +48,12 @@ export function StoreCard({ store, index = 0 }: StoreCardProps) {
     >
       <Link
         to={ROUTES.STORE_DETAIL(store.slug)}
+        data-analytics-event="STORE_CLICK"
+        data-analytics-entity-type="STORE"
+        data-analytics-entity-id={store.analytics_id}
+        data-analytics-source="store-list"
         className="group block overflow-hidden bg-white shadow-[0_1px_8px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)]"
+        onClick={() => void trackAnalytics({ entityType: 'STORE', eventType: 'STORE_CLICK', entityId: store.analytics_id, path: ROUTES.STORE_DETAIL(store.slug), source: 'store-list' })}
       >
         {/* Cover Image or Initial */}
         <div className="relative overflow-hidden" style={{ aspectRatio: '3/2' }}>

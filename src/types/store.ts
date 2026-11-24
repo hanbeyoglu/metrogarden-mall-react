@@ -28,6 +28,8 @@ export interface StoreFilters {
 
 export interface Store {
   id: string
+  /** Public CMS record ID; absent for local demo content. */
+  analytics_id?: string
   slug: string
   name: string
   logo?: string

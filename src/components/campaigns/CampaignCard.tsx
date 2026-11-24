@@ -7,6 +7,7 @@ import { ROUTES } from '@/lib/constants'
 import { formatDateRange } from '@/lib/format'
 import { cn } from '@/lib/cn'
 import { RichTextContent } from '@/components/shared/RichTextContent'
+import { trackAnalytics } from '@/lib/analytics'
 
 interface CampaignCardProps {
   campaign: Campaign
@@ -46,6 +47,8 @@ export function CampaignCard({ campaign, index = 0 }: CampaignCardProps) {
     >
       <Link
         to={ROUTES.CAMPAIGN_DETAIL(campaign.slug)}
+        data-analytics-event="CAMPAIGN_CLICK"
+        onClick={() => void trackAnalytics({ entityType: 'CAMPAIGN', eventType: 'CAMPAIGN_CLICK', entityId: campaign.analytics_id, path: ROUTES.CAMPAIGN_DETAIL(campaign.slug), source: 'campaign-list' })}
         className={cn(
           'group block overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] transition-all duration-500',
           !isExpired && 'hover:-translate-y-1.5 hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)]',

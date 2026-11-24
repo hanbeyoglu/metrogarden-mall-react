@@ -5,6 +5,7 @@ import { useStoreContent } from '@/hooks/useCmsContent'
 import { ROUTES } from '@/lib/constants'
 import { cn } from '@/lib/cn'
 import { formatCategory } from '@/lib/format'
+import { trackAnalytics } from '@/lib/analytics'
 
 const CATEGORY_STYLES: Record<string, { bg: string; text: string; initial: string }> = {
   fashion:           { bg: 'bg-[#f5f0ea]', text: 'text-[#7a5c1e]', initial: 'bg-[#1a1a1a]' },
@@ -89,6 +90,8 @@ export function FeaturedStores() {
               >
                 <Link
                   to={ROUTES.STORE_DETAIL(store.slug)}
+                  data-analytics-event="STORE_CLICK"
+                  onClick={() => void trackAnalytics({ entityType: 'STORE', eventType: 'STORE_CLICK', entityId: store.analytics_id, path: ROUTES.STORE_DETAIL(store.slug), source: 'home' })}
                   className="group relative flex flex-col items-center gap-4 overflow-hidden border border-mist/60 bg-white px-4 py-7 text-center transition-all duration-500 hover:border-champagne/40 hover:shadow-[0_4px_24px_rgba(0,0,0,0.08)] sm:px-5 sm:py-8"
                 >
                   {/* Initial Badge */}

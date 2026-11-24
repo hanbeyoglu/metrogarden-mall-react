@@ -3,6 +3,7 @@ import { ArrowRight, MapPin, Ticket } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useEventContent } from '@/hooks/useCmsContent'
 import { ROUTES, EVENT_CATEGORIES } from '@/lib/constants'
+import { trackAnalytics } from '@/lib/analytics'
 
 function formatEventDate(dateStr: string) {
   const date = new Date(dateStr)
@@ -76,6 +77,8 @@ export function EventsSection() {
               >
                 <Link
                   to={ROUTES.EVENT_DETAIL(event.slug)}
+                  data-analytics-event="EVENT_CLICK"
+                  onClick={() => void trackAnalytics({ entityType: 'EVENT', eventType: 'EVENT_CLICK', entityId: event.analytics_id, path: ROUTES.EVENT_DETAIL(event.slug), source: 'home' })}
                   className="group block overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)]"
                 >
                   {/* Image */}

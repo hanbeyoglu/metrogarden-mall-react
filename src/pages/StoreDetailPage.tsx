@@ -13,6 +13,7 @@ import { formatCategory, formatFloor } from '@/lib/format'
 import { cn } from '@/lib/cn'
 import { StoreGallery } from '@/components/stores/StoreGallery'
 import { RelatedStores } from '@/components/stores/RelatedStores'
+import { useAnalyticsView } from '@/hooks/useAnalyticsView'
 
 const CATEGORY_INITIAL_BG: Record<string, string> = {
   fashion:             'bg-[#1a1514]',
@@ -47,6 +48,7 @@ export function StoreDetailPage() {
   const [logoFailed, setLogoFailed] = useState(false)
 
   const store = storeDetail.data ?? allStores.find((s) => s.slug === slug && s.is_active)
+  useAnalyticsView({ entityType: 'STORE', eventType: 'STORE_VIEW', entityId: store?.analytics_id, source: 'store-detail' })
 
   useMeta({
     title: store?.name,

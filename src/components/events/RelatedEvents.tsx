@@ -4,6 +4,7 @@ import { motion } from 'motion/react'
 import type { Event } from '@/types'
 import { ROUTES, EVENT_CATEGORIES } from '@/lib/constants'
 import { cn } from '@/lib/cn'
+import { trackAnalytics } from '@/lib/analytics'
 
 interface RelatedEventsProps {
   events: Event[]
@@ -87,6 +88,8 @@ export function RelatedEvents({ events }: RelatedEventsProps) {
               >
                 <Link
                   to={ROUTES.EVENT_DETAIL(event.slug)}
+                  data-analytics-event="EVENT_CLICK"
+                  onClick={() => void trackAnalytics({ entityType: 'EVENT', eventType: 'EVENT_CLICK', entityId: event.analytics_id, path: ROUTES.EVENT_DETAIL(event.slug), source: 'related-events' })}
                   className={cn(
                     'group block overflow-hidden bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all duration-500',
                     !isPast && 'hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(0,0,0,0.1)]',

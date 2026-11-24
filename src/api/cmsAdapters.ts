@@ -138,6 +138,7 @@ export function mapStore(item: CmsStore): Store {
   const socialLinks = Object.fromEntries(item.globalStore.socialLinks.map(({ platform, url }) => [platform.toLowerCase(), url]))
   return {
     id: item.id,
+    analytics_id: item.id,
     slug: item.globalStore.slug,
     name: item.name || item.globalStore.name,
     logo: mediaUrl(logo) || undefined,
@@ -170,6 +171,7 @@ function campaignStatus(start?: string | null, end?: string | null): Campaign['s
 export function mapCampaign(item: CmsCampaign): Campaign {
   return {
     id: item.id,
+    analytics_id: item.id,
     slug: item.slug,
     title: item.title,
     image: mediaUrl(item.image),
@@ -203,6 +205,7 @@ export function mapEvent(item: CmsEvent): Event {
   const image = mediaUrl(item.image ?? item.coverMedia) || gallery[0] || ''
   return {
     id: item.id,
+    analytics_id: item.id,
     slug: item.slug,
     title: item.title,
     image,
@@ -230,6 +233,7 @@ export function mapSliders(groups: CmsSlider[]): Slider[] {
           const media = item.image ?? item.desktopMedia ?? item.mobileImage ?? item.mobileMedia
           return {
             id: item.id,
+            analytics_id: group.id,
             title: item.title || media?.caption || media?.alt || '',
             subtitle: item.subtitle || item.description || undefined,
             image: mediaUrl(media),
@@ -243,6 +247,7 @@ export function mapSliders(groups: CmsSlider[]): Slider[] {
           const media = group.image ?? group.desktopMedia ?? group.mobileImage ?? group.mobileMedia
           return [{
             id: group.id,
+            analytics_id: group.id,
             title: media?.caption || media?.alt || '',
             subtitle: group.subtitle || group.description || undefined,
             image: mediaUrl(media),
@@ -269,6 +274,7 @@ export function mapMovieSessions(sessions: CmsMovieSession[]): Movie[] {
     }
     movies.set(source.id, {
       id: source.id,
+      analytics_id: source.id,
       slug: source.slug,
       title: source.title,
       poster: mediaUrl(source.poster),
@@ -293,6 +299,7 @@ export function mapActiveMovies(items: CmsActiveMovie[]): Movie[] {
       : Boolean(item.releaseDate && item.releaseDate.slice(0, 10) > today)
     return {
       id: item.id,
+      analytics_id: item.id,
       slug: item.slug,
       title: item.title,
       poster: mediaUrl(item.poster) || tmdbPosterUrl(item.posterPath),

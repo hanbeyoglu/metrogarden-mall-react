@@ -21,6 +21,8 @@ export interface EventFilters {
 
 export interface Event {
   id: string
+  /** Public CMS record ID; absent for local demo content. */
+  analytics_id?: string
   slug: string
   title: string
   /** Card / thumbnail image */

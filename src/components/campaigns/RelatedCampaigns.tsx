@@ -5,6 +5,7 @@ import type { Campaign } from '@/types'
 import { ROUTES } from '@/lib/constants'
 import { formatDateRange } from '@/lib/format'
 import { cn } from '@/lib/cn'
+import { trackAnalytics } from '@/lib/analytics'
 
 interface RelatedCampaignsProps {
   campaigns: Campaign[]
@@ -76,6 +77,8 @@ export function RelatedCampaigns({ campaigns }: RelatedCampaignsProps) {
               >
                 <Link
                   to={ROUTES.CAMPAIGN_DETAIL(campaign.slug)}
+                  data-analytics-event="CAMPAIGN_CLICK"
+                  onClick={() => void trackAnalytics({ entityType: 'CAMPAIGN', eventType: 'CAMPAIGN_CLICK', entityId: campaign.analytics_id, path: ROUTES.CAMPAIGN_DETAIL(campaign.slug), source: 'related-campaigns' })}
                   className={cn(
                     'group block overflow-hidden bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all duration-500',
                     !isExpired && 'hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(0,0,0,0.1)]',

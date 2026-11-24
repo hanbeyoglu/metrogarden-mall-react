@@ -16,6 +16,7 @@ import { Autoplay, EffectFade } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
+import { useAnalyticsView } from '@/hooks/useAnalyticsView'
 
 export function EventDetailPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -25,6 +26,7 @@ export function EventDetailPage() {
   const [copied, setCopied] = useState(false)
 
   const event = eventDetail.data ?? allEvents.find((e) => e.slug === slug)
+  useAnalyticsView({ entityType: 'EVENT', eventType: 'EVENT_VIEW', entityId: event?.analytics_id, source: 'event-detail' })
 
   useMeta({
     title: event?.title,

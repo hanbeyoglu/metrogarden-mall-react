@@ -3,6 +3,7 @@ import { ArrowRight, Clock } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useCampaignContent } from '@/hooks/useCmsContent'
 import { ROUTES } from '@/lib/constants'
+import { trackAnalytics } from '@/lib/analytics'
 
 function formatEndDate(dateStr: string): string {
   const date = new Date(dateStr)
@@ -74,6 +75,8 @@ export function CampaignSection() {
             >
               <Link
                 to={ROUTES.CAMPAIGN_DETAIL(campaign.slug)}
+                data-analytics-event="CAMPAIGN_CLICK"
+                onClick={() => void trackAnalytics({ entityType: 'CAMPAIGN', eventType: 'CAMPAIGN_CLICK', entityId: campaign.analytics_id, path: ROUTES.CAMPAIGN_DETAIL(campaign.slug), source: 'home' })}
                 className="group block overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)]"
               >
                 {/* Image */}

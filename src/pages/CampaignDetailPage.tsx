@@ -12,6 +12,7 @@ import { formatDateRange, formatDateFull } from '@/lib/format'
 import { cn } from '@/lib/cn'
 import { RelatedCampaigns } from '@/components/campaigns/RelatedCampaigns'
 import { RichTextContent } from '@/components/shared/RichTextContent'
+import { useAnalyticsView } from '@/hooks/useAnalyticsView'
 
 const STATUS_CONFIG = {
   'ending-soon': {
@@ -37,6 +38,7 @@ export function CampaignDetailPage() {
   const [termsOpen, setTermsOpen] = useState(false)
 
   const campaign = campaignDetail.data ?? allCampaigns.find((c) => c.slug === slug)
+  useAnalyticsView({ entityType: 'CAMPAIGN', eventType: 'CAMPAIGN_VIEW', entityId: campaign?.analytics_id, source: 'campaign-detail' })
 
   useMeta({
     title: campaign?.title,

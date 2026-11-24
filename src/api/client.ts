@@ -1,3 +1,5 @@
+import { buildApiRequestHeaders } from '@/lib/apiHeaders'
+
 /**
  * API Client — typed, normalized, and error-aware.
  *
@@ -29,7 +31,6 @@ export class ApiError extends Error {
     return this.status === 0
   }
 }
-
 interface ErrorPayload {
   message?: string | string[]
   code?: string
@@ -50,6 +51,7 @@ type RequestOptions = {
   body?: unknown
   headers?: Record<string, string>
   signal?: AbortSignal
+  keepalive?: boolean
 }
 
 function getBaseUrl(): string {
@@ -70,7 +72,7 @@ export function hasPublicApiConfig(requireMall = false): boolean {
 }
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  const { method = 'GET', body, headers = {}, signal } = options
+  const { method = 'GET', body, headers = {}, signal, keepalive } = options
 
   let response: Response
 
@@ -83,16 +85,10 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
       // CMS content is edited independently from this website. Avoid serving
       // a previously cached GET response after an admin publishes a change.
       cache: 'no-store',
-      headers: {
-        Accept: 'application/json',
-        ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
-        ...(publicApiKey ? { 'x-api-key': publicApiKey } : {}),
-        ...(tenantId ? { 'x-tenant-id': tenantId } : {}),
-        ...(mallId ? { 'x-mall-id': mallId } : {}),
-        ...headers,
-      },
+      headers: buildApiRequestHeaders({ publicApiKey, tenantId, mallId }, body !== undefined, headers),
       body: body !== undefined ? JSON.stringify(body) : undefined,
       signal,
+      keepalive,
     })
   } catch (error) {
     // Network failure (offline, CORS, DNS, etc.)

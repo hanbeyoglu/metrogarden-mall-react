@@ -4,6 +4,7 @@ import { motion } from 'motion/react'
 import type { Movie } from '@/types'
 import { cn } from '@/lib/cn'
 import { MovieTrailerModal } from './MovieTrailerModal'
+import { trackAnalytics } from '@/lib/analytics'
 
 interface MovieRowProps {
   movie: Movie
@@ -39,6 +40,14 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
   const isComingSoon = movie.status === 'coming-soon'
   const times = isComingSoon ? [] : (movie.daily_times ?? [])
   const ratingStyle = movie.rating ? (RATING_STYLE[movie.rating] ?? 'bg-white/10 text-white/60') : ''
+  const openTrailer = () => {
+    void trackAnalytics({ entityType: 'MOVIE', eventType: 'MOVIE_CLICK', entityId: movie.analytics_id, path: '/cinema', source: 'cinema-list' })
+    setTrailerOpen(true)
+  }
+  const trackSessionClick = (time: string) => {
+    const session = movie.showtimes?.find((item) => item.time === time)
+    void trackAnalytics({ entityType: 'MOVIE_SESSION', eventType: 'MOVIE_SESSION_CLICK', entityId: session?.id, path: '/cinema', source: 'cinema-list' })
+  }
 
   return (
     <motion.article
@@ -53,7 +62,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
         {/* Cover image */}
         <button
           type="button"
-          onClick={() => setTrailerOpen(true)}
+          onClick={openTrailer}
           aria-label={`${movie.title} fragmanını aç`}
           className="group/trailer relative block w-full overflow-hidden text-left"
           style={{ aspectRatio: '16/9' }}
@@ -146,6 +155,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
               selectedTime={selectedTime}
               onSelect={setSelectedTime}
               ticketUrl={movie.ticket_url}
+              onSessionClick={trackSessionClick}
             />
           )}
         </div>
@@ -156,7 +166,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
         {/* Poster */}
         <button
           type="button"
-          onClick={() => setTrailerOpen(true)}
+          onClick={openTrailer}
           aria-label={`${movie.title} fragmanını aç`}
           className="group/trailer relative block w-[100px] shrink-0 overflow-hidden text-left xl:w-[110px]"
         >
@@ -182,7 +192,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
           <div className="mb-2 flex flex-wrap items-center gap-2.5">
             <button
               type="button"
-              onClick={() => setTrailerOpen(true)}
+              onClick={openTrailer}
               className="font-display text-left text-[22px] font-light leading-snug text-white transition-colors duration-300 hover:text-champagne focus-visible:text-champagne"
             >
               {movie.title}
@@ -280,6 +290,7 @@ export function MovieRow({ movie, selectedDay, index = 0 }: MovieRowProps) {
               selectedTime={selectedTime}
               onSelect={setSelectedTime}
               ticketUrl={movie.ticket_url}
+              onSessionClick={trackSessionClick}
             />
           ) : (
             <span className="text-center font-sans text-[11px] text-white/20">Seans bilgisi yok</span>
@@ -297,11 +308,13 @@ function ShowtimeSection({
   selectedTime,
   onSelect,
   ticketUrl,
+  onSessionClick,
 }: {
   times: string[]
   selectedTime: string | null
   onSelect: (t: string | null) => void
   ticketUrl?: string
+  onSessionClick: (time: string) => void
 }) {
   return (
     <div>
@@ -310,7 +323,10 @@ function ShowtimeSection({
         {times.map((time) => (
           <button
             key={time}
-            onClick={() => onSelect(selectedTime === time ? null : time)}
+            onClick={() => {
+              onSelect(selectedTime === time ? null : time)
+              onSessionClick(time)
+            }}
             className={cn(
               'px-3 py-2 font-sans text-[12px] font-medium transition-all duration-200',
               selectedTime === time
@@ -337,6 +353,7 @@ function ShowtimeSection({
             className="flex w-full items-center justify-center gap-2.5 bg-champagne py-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.12em] text-white transition-opacity hover:opacity-90"
             onClick={(e) => {
               if (!ticketUrl || ticketUrl === '#') e.preventDefault()
+              else onSessionClick(selectedTime)
             }}
           >
             <Ticket size={12} />

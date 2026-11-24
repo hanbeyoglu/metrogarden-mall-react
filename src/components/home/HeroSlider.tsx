@@ -7,6 +7,7 @@ import { ArrowRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 import { useSliderContent } from '@/hooks/useCmsContent'
 import { cn } from '@/lib/cn'
+import { trackAnalytics } from '@/lib/analytics'
 
 import 'swiper/css'
 import 'swiper/css/effect-fade'
@@ -125,6 +126,8 @@ export function HeroSlider() {
                     >
                       <Link
                         to={activeSlider.cta_url}
+                        data-analytics-event="SLIDER_CLICK"
+                        onClick={() => void trackAnalytics({ entityType: 'SLIDER', eventType: 'SLIDER_CLICK', entityId: activeSlider.analytics_id, path: activeSlider.cta_url!, source: 'home-slider' })}
                         className="group inline-flex items-center gap-3 border border-white bg-transparent px-8 py-4 font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-white transition-all duration-300 hover:bg-white hover:text-carbon"
                       >
                         {activeSlider.cta_label}

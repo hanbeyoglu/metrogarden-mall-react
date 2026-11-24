@@ -43,6 +43,8 @@ export type MovieGenre =
 
 export interface Movie {
   id: string
+  /** Public CMS record ID; absent for local demo content. */
+  analytics_id?: string
   slug: string
   title: string
   /** Portrait poster 2:3 */

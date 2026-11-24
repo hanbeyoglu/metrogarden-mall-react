@@ -11,7 +11,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test:analytics": "node --experimental-strip-types --test tests/analyticsCore.test.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

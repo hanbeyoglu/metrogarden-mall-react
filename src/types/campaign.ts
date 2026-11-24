@@ -12,6 +12,8 @@ export type CampaignStatus = 'active' | 'ending-soon' | 'expired' | 'upcoming'
 
 export interface Campaign {
   id: string
+  /** Public CMS record ID; absent for local demo content. */
+  analytics_id?: string
   slug: string
   title: string
   /** Card / thumbnail image */

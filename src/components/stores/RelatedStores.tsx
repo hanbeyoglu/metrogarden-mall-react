@@ -5,6 +5,7 @@ import type { Store } from '@/types'
 import { ROUTES } from '@/lib/constants'
 import { cn } from '@/lib/cn'
 import { formatCategory, formatFloor } from '@/lib/format'
+import { trackAnalytics } from '@/lib/analytics'
 
 const CATEGORY_INITIAL_BG: Record<string, string> = {
   fashion:             'bg-[#1a1514]',
@@ -87,6 +88,8 @@ export function RelatedStores({ stores }: RelatedStoresProps) {
               >
                 <Link
                   to={ROUTES.STORE_DETAIL(store.slug)}
+                  data-analytics-event="STORE_CLICK"
+                  onClick={() => void trackAnalytics({ entityType: 'STORE', eventType: 'STORE_CLICK', entityId: store.analytics_id, path: ROUTES.STORE_DETAIL(store.slug), source: 'related-stores' })}
                   className="group flex flex-col overflow-hidden border border-mist/60 bg-white transition-all duration-400 hover:-translate-y-1 hover:border-champagne/40 hover:shadow-[0_8px_24px_rgba(0,0,0,0.09)]"
                 >
                   {/* Image */}
